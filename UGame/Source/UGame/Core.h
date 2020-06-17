@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef UG_PLATFORM_WINDOWS
+#ifdef WIN32
 	#ifdef UG_BUILD_DLL
 	#define UGAME_API __declspec(dllexport)
 	#else

@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 3.18)
+
+project(Sandbox)
+
+add_executable(Sandbox Source/Sandbox.cpp)
+
+target_link_libraries(Sandbox PRIVATE UGame)
+
+if (WIN32)
+	add_definitions(-DUG_PLATFORM_WINDOWS)
+endif (WIN32)

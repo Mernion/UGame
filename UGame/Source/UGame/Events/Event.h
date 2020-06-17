@@ -1,7 +1,7 @@
 #pragma once
 #include "ugpch.h"
 
-#include "UGame/Core.h"
+#include "Core.h"
 
 namespace UGame
 {

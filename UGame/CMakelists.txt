@@ -1,0 +1,74 @@
+cmake_minimum_required (VERSION 3.18)
+
+project(UGame)
+
+set(UGAME_ROOT
+	"Source/UGame.h"
+	"Source/ugpch.h"
+	"Source/ugpch.cpp"
+)
+
+set(UGAME_SOURCE_PLATFORM "")
+
+set(UGAME_SOURCE_PLATFORM_WINDOWS 
+      	"Source/Platform/Windows/WindowsWindow.cpp"
+      	"Source/Platform/Windows/WindowsWindow.h"
+)
+
+set(UGAME_SOURCE_EVENTS
+	"Source/UGame/Events/ApplicationEvent.h"
+	"Source/UGame/Events/Event.h"
+	"Source/UGame/Events/KeyEvent.h"
+	"Source/UGame/Events/MouseEvent.h"
+)
+
+set(UGAME_SOURCE
+      	"Source/UGame/Application.cpp"
+      	"Source/UGame/Application.h"
+      	"Source/UGame/Core.h"
+      	"Source/UGame/EntryPoint.h"
+      	"Source/UGame/Log.cpp"
+      	"Source/UGame/Log.h"
+	"Source/UGame/Window.h"
+)
+
+set(UGAME_SRC 	${UGAME_SOURCE} 
+		${UGAME_ROOT} 
+		${UGAME_SOURCE_EVENTS} 
+		${UGAME_SOURCE_PLATFORM} 
+		${UGAME_SOURCE_PLATFORM_WINDOWS}
+)
+
+add_library(UGame SHARED ${UGAME_SRC})
+
+#target_precompile_headers(UGame PRIVATE Source/ugpch.h)
+if (MSVC)
+	target_compile_options(UGame PRIVATE /Ycugpch.h)
+endif (MSVC)
+
+target_include_directories(UGame PUBLIC Source)
+
+target_link_libraries(UGame PUBLIC spdlog_header_only)
+target_link_libraries(UGame PUBLIC glfw)
+target_link_libraries(UGame PUBLIC opengl32)
+  
+# Create named folders for the sources within the .vcproj
+# Empty name lists them directly under the .vcproj
+source_group("" FILES ${UGAME_ROOT})
+source_group("Source" FILES ${UGAME_SOURCE})
+source_group("Source/Events" FILES ${UGAME_SOURCE_EVENTS})
+source_group("Source/Platform" FILES ${UGAME_SOURCE_PLATFORM})
+source_group("Source/Platform/Windows" FILES ${UGAME_SOURCE_PLATFORM_WINDOWS})
+
+if (WIN32)
+      add_definitions(-DUG_BUILD_DLL) 
+      add_definitions(-DUG_PLATFORM_WINDOWS)
+endif (WIN32)
+
+add_definitions(-D_UNICODE)
+
+add_subdirectory(ThirdParty/spdlog)
+add_subdirectory(ThirdParty/GLFW)
+
+
+ 
