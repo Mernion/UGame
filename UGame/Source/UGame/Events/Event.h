@@ -4,6 +4,7 @@
 
 #include <string>
 #include <functional>
+#include "spdlog/fmt/ostr.h"
 
 namespace UGame
 {
@@ -35,8 +36,11 @@ namespace UGame
 
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() {return EventType::##type; }\
 								EventType GetEventType() const override {return GetStaticType(); }\
-								const char* GetName() const override {return ##type; }
-									
+								const char* GetName() const override {return #type; }
+		
+// TODO:: find some generic way to handle a lot of events? maybe more polymorphic types?
+// macros? or just some third party library for all this stuff;
+
 	class UGAME_API Event
 	{
 		friend class EventDispatcher;
@@ -57,9 +61,36 @@ namespace UGame
 		bool consumed = false;
 	};
 
+
+	// implement: bool func(Event& ev) somewhere in the class that handles event
+	// and dispatch event by event dispatcher
 	class EventDispatcher
 	{
-		;
+		template<typename T>
+		using EventFn = std::function<bool>(T&);
+
+	public:
+
+		EventDispatcher(Event& newEvent) : currEvent(newEvent) {}
+
+		template<typename T>
+		bool Dispatch(EventFn<T> func)
+		{
+			if (currEvent.GetEventType() == T::GetStaticType())
+			{
+				currEvent.consumed = func(*(T)&currEvent);
+				return true;
+			}
+			return false;
+		}
+		
+	private:
+		Event& currEvent;
 	};
+
+	inline std::ostream& operator<<(std::ostream& os, const Event& ev)
+	{
+		return os << ev.ToString();
+	}
 }
 
