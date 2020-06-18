@@ -11,6 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\UGame\Events\ApplicationEvent.h" />
+    <ClInclude Include="Source\UGame\Events\Event.h" />
+    <ClInclude Include="Source\UGame\Events\KeyEvent.h" />
+    <ClInclude Include="Source\UGame\Events\MouseEvent.h" />
     <ClInclude Include="Source\UGame\Log.h" />
     <ClInclude Include="Source\UGame.h" />
     <ClInclude Include="Source\UGame\Application.h" />
