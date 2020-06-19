@@ -2,7 +2,7 @@
 
 #include "Event.h"
 #include <sstream>
-#include "../Core.h"
+#include "UGame/Core.h"
 
 namespace UGame
 {

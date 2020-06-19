@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core.h"
+#include "UGame/Core.h"
 #include "Event.h"
 #include <sstream>
 
