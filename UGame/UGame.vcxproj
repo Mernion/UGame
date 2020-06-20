@@ -20,10 +20,14 @@
     <ClInclude Include="Source\UGame\Application.h" />
     <ClInclude Include="Source\UGame\Core.h" />
     <ClInclude Include="Source\UGame\EntryPoint.h" />
+    <ClInclude Include="Source\ugpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UGame\Log.cpp" />
     <ClCompile Include="Source\UGame\Application.cpp" />
+    <ClCompile Include="Source\ugpch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -75,6 +79,8 @@
       <PreprocessorDefinitions>UG_PLATFORM_WINDOWS;UG_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)UGame\ThirdParty\spdlog\include;$(SolutionDir)UGame\Source;</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>ugpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -1,9 +1,6 @@
 #pragma once
 
 #include "UGame/Core.h"
-
-#include <string>
-#include <functional>
 #include "spdlog/fmt/ostr.h"
 
 namespace UGame

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "UGame/Core.h"
 #include "Event.h"
-#include <sstream>
 
 namespace UGame
 {
