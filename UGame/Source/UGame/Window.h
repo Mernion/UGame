@@ -9,12 +9,12 @@ namespace UGame
 	struct WindowProps
 	{
 		std::string title;
-		unsigned int width;
-		unsigned int height;
+		int width;
+		int height;
 
 		WindowProps(const std::string& title = "UGame Engine",
-			unsigned int width = 1280,
-			unsigned int height = 720) : title(title), width(width), height(height)
+			int width = 1280,
+			int height = 720) : title(title), width(width), height(height)
 		{
 		}
 	};
@@ -29,12 +29,12 @@ namespace UGame
 
 		virtual void OnUpdate() = 0;
 
-		virtual unsigned int GetWidth() const = 0;
-		virtual unsigned int GetHeight() const = 0;
+		virtual int GetWidth() const = 0;
+		virtual int GetHeight() const = 0;
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
-		virtual bool IsVSyn() const = 0;
+		virtual bool IsVSync() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

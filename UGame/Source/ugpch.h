@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "UGame/Log.h"
+
 #ifdef UG_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

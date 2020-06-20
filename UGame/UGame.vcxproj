@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="Source\UGame\Events\ApplicationEvent.h" />
     <ClInclude Include="Source\UGame\Events\Event.h" />
     <ClInclude Include="Source\UGame\Events\KeyEvent.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="Source\ugpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Source\UGame\Log.cpp" />
     <ClCompile Include="Source\UGame\Application.cpp" />
     <ClCompile Include="Source\ugpch.cpp">
@@ -79,13 +81,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>UG_PLATFORM_WINDOWS;UG_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)UGame\ThirdParty\spdlog\include;$(SolutionDir)UGame\ThidParty\GLFW\include;$(SolutionDir)UGame\Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)UGame\ThirdParty\spdlog\include;$(SolutionDir)UGame\ThirdParty\GLFW\include;$(SolutionDir)UGame\Source</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>ugpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)UGame\ThirdParty\GLFW\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(OutDir)UGame.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"</Command>
