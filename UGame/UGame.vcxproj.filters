@@ -45,6 +45,9 @@
     <ClInclude Include="Source\ugpch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\UGame\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\UGame\Application.cpp">

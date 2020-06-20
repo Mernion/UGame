@@ -20,6 +20,7 @@
     <ClInclude Include="Source\UGame\Application.h" />
     <ClInclude Include="Source\UGame\Core.h" />
     <ClInclude Include="Source\UGame\EntryPoint.h" />
+    <ClInclude Include="Source\UGame\Window.h" />
     <ClInclude Include="Source\ugpch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -78,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>UG_PLATFORM_WINDOWS;UG_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)UGame\ThirdParty\spdlog\include;$(SolutionDir)UGame\Source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)UGame\ThirdParty\spdlog\include;$(SolutionDir)UGame\ThidParty\GLFW\include;$(SolutionDir)UGame\Source</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>ugpch.h</PrecompiledHeaderFile>
     </ClCompile>
