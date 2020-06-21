@@ -1,6 +1,7 @@
 [submodule "spdlog"]
 	path = UGame/ThirdParty/spdlog
 	url = https://github.com/gabime/spdlog.git
-[submodule "UGame/Thirdparty/GLFW"]
-	path = UGame/Thirdparty/GLFW
+
+[submodule "UGame/ThirdParty/GLFW"]
+	path = UGame/ThirdParty/GLFW
 	url = https://github.com/glfw/glfw.git
