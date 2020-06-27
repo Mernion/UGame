@@ -34,6 +34,8 @@ namespace UGame
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() {return EventType::##type; }\
 								EventType GetEventType() const override {return GetStaticType(); }\
 								const char* GetName() const override {return #type; }
+
+#define BIND_EVENT(x) std::bind(&x, this, std::placeholders::_1)
 		
 // TODO:: find some generic way to handle a lot of events? maybe more polymorphic types?
 // macros? or just some third party library for all this stuff;
@@ -64,7 +66,7 @@ namespace UGame
 	class EventDispatcher
 	{
 		template<typename T>
-		using EventFn = std::function<bool>(T&);
+		using EventFn = std::function<bool(T&)>;
 
 	public:
 
@@ -75,7 +77,7 @@ namespace UGame
 		{
 			if (currEvent.GetEventType() == T::GetStaticType())
 			{
-				currEvent.consumed = func(*(T)&currEvent);
+				currEvent.consumed = func(*(T*)&currEvent);
 				return true;
 			}
 			return false;

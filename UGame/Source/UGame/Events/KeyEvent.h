@@ -10,8 +10,6 @@ namespace UGame
 	{
 	public:
 
-		EVENT_CLASS_TYPE(KeyEvent)
-		
 		int GetCategoryFlags() const override { return static_cast<int>(EventCategory::Keyboard) | static_cast<int>(EventCategory::Input); }
 
 		inline int GetKeyCode() const { return keyCode; }
@@ -25,7 +23,9 @@ namespace UGame
 
 	class UGAME_API KeyPressedEvent : public KeyEvent
 	{
-		EVENT_CLASS_TYPE(KeyPressedEvent)
+	public:
+
+		EVENT_CLASS_TYPE(KeyPressed)
 
 		KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), repeatCount(repeatCount)
 		{}
