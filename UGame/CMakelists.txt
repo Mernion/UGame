@@ -47,15 +47,12 @@ target_compile_features(UGame PRIVATE cxx_std_17)
 
 set_target_properties(UGame PROPERTIES UNITY_BUILD ON)
 
-#if (MSVC)	
-#target_compile_options(UGame PRIVATE /Ycugpch.h)
-#endif (MSVC)
-
 target_include_directories(UGame PUBLIC Source)
 
 target_link_libraries(UGame PUBLIC spdlog_header_only)
 target_link_libraries(UGame PUBLIC glfw)
 target_link_libraries(UGame PUBLIC opengl32)
+target_link_libraries(UGame PUBLIC GLAD)
   
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
@@ -69,10 +66,11 @@ if (WIN32)
       target_compile_definitions(UGame PRIVATE UG_BUILD_DLL=1 UG_PLATFORM_WINDOWS=1) 
 endif (WIN32)
 
-target_compile_definitions(UGame PRIVATE _UNICODE=1)
+target_compile_definitions(UGame PRIVATE _UNICODE=1 GLFW_INCLUDE_NONE=1)
 
 add_subdirectory(ThirdParty/spdlog)
 add_subdirectory(ThirdParty/GLFW)
+add_subdirectory(ThirdParty/GLAD)
 
 
  

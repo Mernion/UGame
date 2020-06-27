@@ -3,6 +3,7 @@
 #include "UGame/Events/KeyEvent.h"
 #include "UGame/Events/MouseEvent.h"
 #include "UGame/Log.h"
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
 namespace UGame
@@ -49,6 +50,8 @@ namespace UGame
 			props.height,
 			props.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		UG_CORE_ASSERT(status, "Failed to initialize Glad");
 		glfwSetWindowUserPointer(window, &data);
 		SetVSync(true);
 
