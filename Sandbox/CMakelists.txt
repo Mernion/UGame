@@ -7,5 +7,5 @@ add_executable(Sandbox Source/Sandbox.cpp)
 target_link_libraries(Sandbox PRIVATE UGame)
 
 if (WIN32)
-	add_definitions(-DUG_PLATFORM_WINDOWS)
+	target_compile_definitions(Sandbox PRIVATE UG_PLATFORM_WINDOWS=1)
 endif (WIN32)

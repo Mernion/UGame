@@ -1,7 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "LayerStack.h"
-
+#include <memory>
 #include "Window.h"
 
 namespace UGame

@@ -1,6 +1,4 @@
 #pragma once
-#include "ugpch.h"
-
 #include "Core.h"
 #include "Events/Event.h"
 

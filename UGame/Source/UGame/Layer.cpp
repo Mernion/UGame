@@ -1,4 +1,3 @@
-#include "ugpch.h"
 #include "Layer.h"
 
 namespace UGame

@@ -1,9 +1,11 @@
 #pragma once
 #include "UGame/Window.h"
-#include "GLFW/glfw3.h"
+
+struct GLFWwindow;
 
 namespace UGame
 {
+
 	class WindowsWindow : public Window
 	{
 	public:

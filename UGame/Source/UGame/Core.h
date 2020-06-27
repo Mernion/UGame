@@ -1,6 +1,10 @@
 #pragma once
 
 #ifdef WIN32
+	#include <Windows.h>
+#endif
+
+#ifdef WIN32
 	#ifdef UG_BUILD_DLL
 	#define UGAME_API __declspec(dllexport)
 	#else

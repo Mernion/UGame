@@ -1,8 +1,9 @@
-#include "ugpch.h"
 #include "WindowsWindow.h"
 #include "UGame/Events/ApplicationEvent.h"
 #include "UGame/Events/KeyEvent.h"
 #include "UGame/Events/MouseEvent.h"
+#include "UGame/Log.h"
+#include "GLFW/glfw3.h"
 
 namespace UGame
 {
