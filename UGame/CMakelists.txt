@@ -30,6 +30,10 @@ set(UGAME_SOURCE
       	"Source/UGame/Log.cpp"
       	"Source/UGame/Log.h"
 	"Source/UGame/Window.h"
+	"Source/UGame/Layer.h"
+	"Source/UGame/Layer.cpp"
+	"Source/UGame/LayerStack.cpp"
+	"Source/UGame/LayerStack.h"
 )
 
 set(UGAME_SRC 	${UGAME_SOURCE} 

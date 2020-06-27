@@ -1,7 +1,7 @@
 #pragma once
 #include "ugpch.h"
 
-#include "Core.h"
+#include "UGame/Core.h"
 
 namespace UGame
 {
@@ -55,9 +55,11 @@ namespace UGame
 			return GetCategoryFlags() & static_cast<int>(category);
 		}
 
+		inline bool getHandled() const { return handled; }
+
 	protected:
 
-		bool consumed = false;
+		bool handled = false;
 	};
 
 
@@ -77,7 +79,7 @@ namespace UGame
 		{
 			if (currEvent.GetEventType() == T::GetStaticType())
 			{
-				currEvent.consumed = func(*(T*)&currEvent);
+				currEvent.handled = func(*(T*)&currEvent);
 				return true;
 			}
 			return false;

@@ -1,12 +1,15 @@
 #pragma once
 #include "Core.h"
-#include "Events/Event.h"
-#include "Events/ApplicationEvent.h"
+#include "LayerStack.h"
 
 #include "Window.h"
 
 namespace UGame
 {
+	class Layer;
+	class Event;
+	class WindowCloseEvent;
+
 	class UGAME_API Application
 	{
 
@@ -20,12 +23,17 @@ namespace UGame
 
 		void OnEvent(Event& e);
 
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
+
 	private:
 
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> window;
 		bool running = true;
+
+		LayerStack layerStack;
 	};
 
 	// should be defined in the client

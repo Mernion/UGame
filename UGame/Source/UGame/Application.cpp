@@ -1,7 +1,8 @@
 #include "ugpch.h"
 #include "Application.h"
-
-#include "Log.h"
+#include "Events/Event.h"
+#include "Events/ApplicationEvent.h"
+#include "Layer.h"
 
 #include <GLFW/glfw3.h>
 
@@ -18,12 +19,28 @@ namespace UGame
 		
 	}
 
+	void Application::PushLayer(Layer* layer)
+	{
+		layerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* overlay)
+	{
+		layerStack.PushOverlay(overlay);
+	}
+
 	void Application::Run()
 	{
 		while (running)
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+			
+			for (Layer* layer : layerStack)
+			{
+				layer->OnUpdate();
+			}
+
 			window->OnUpdate();
 		}
 	}
@@ -32,7 +49,14 @@ namespace UGame
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT(Application::OnWindowClose));
 
-		UG_CORE_INFO("{0}", e);
+		for (auto it = layerStack.end();it != layerStack.begin(); )
+		{
+			(*--it)->OnEvent(e);
+			if (e.getHandled())
+			{
+				break;
+			}
+		}
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
