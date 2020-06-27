@@ -7,8 +7,13 @@
 
 namespace UGame
 {
+	Application* Application::instance = nullptr;
+
 	Application::Application()
 	{
+		UG_CORE_ASSERT(!instance, "Application already exist");
+		instance = this;
+
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
 	}

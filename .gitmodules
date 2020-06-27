@@ -5,3 +5,6 @@
 [submodule "UGame/ThirdParty/GLFW"]
 	path = UGame/ThirdParty/GLFW
 	url = https://github.com/glfw/glfw.git
+[submodule "UGame/ThirdParty/imgui"]
+	path = UGame/ThirdParty/imgui
+	url = https://github.com/Mernion/imgui.git

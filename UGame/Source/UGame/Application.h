@@ -14,7 +14,6 @@ namespace UGame
 	{
 
 	public:
-
 		Application();
 
 		virtual ~Application();
@@ -26,6 +25,10 @@ namespace UGame
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
+		inline Window& GetWindow() { return *window; }
+
+		inline static Application& Get() { return *instance; }
+
 	private:
 
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -34,6 +37,8 @@ namespace UGame
 		bool running = true;
 
 		LayerStack layerStack;
+
+		static Application* instance;
 	};
 
 	// should be defined in the client

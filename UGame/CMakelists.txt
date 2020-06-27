@@ -13,11 +13,21 @@ set(UGAME_SOURCE_PLATFORM_WINDOWS
       	"Source/Platform/Windows/WindowsWindow.h"
 )
 
+set(UGAME_SOURCE_PLATFORM_OPENGL 
+	"Source/Platform/OpenGL/ImGuiOpenGLRenderer.cpp"
+	"Source/Platform/OpenGL/ImGuiOpenGLRenderer.h"
+)
+
 set(UGAME_SOURCE_EVENTS
 	"Source/UGame/Events/ApplicationEvent.h"
 	"Source/UGame/Events/Event.h"
 	"Source/UGame/Events/KeyEvent.h"
 	"Source/UGame/Events/MouseEvent.h"
+)
+
+set(UGAME_SOURCE_IMGUI
+	"Source/UGame/ImGui/ImGuiLayer.cpp"
+	"Source/UGame/ImGui/ImGuiLayer.h"
 )
 
 set(UGAME_SOURCE
@@ -39,6 +49,8 @@ set(UGAME_SRC 	${UGAME_SOURCE}
 		${UGAME_SOURCE_EVENTS} 
 		${UGAME_SOURCE_PLATFORM} 
 		${UGAME_SOURCE_PLATFORM_WINDOWS}
+		${UGAME_SOURCE_IMGUI}
+		${UGAME_SOURCE_PLATFORM_OPENGL}
 )
 
 add_library(UGame SHARED ${UGAME_SRC})
@@ -53,6 +65,7 @@ target_link_libraries(UGame PUBLIC spdlog_header_only)
 target_link_libraries(UGame PUBLIC glfw)
 target_link_libraries(UGame PUBLIC opengl32)
 target_link_libraries(UGame PUBLIC GLAD)
+target_link_libraries(UGame PUBLIC ImGui)
   
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
@@ -61,6 +74,8 @@ source_group("Source Files" FILES ${UGAME_SOURCE})
 source_group("Source Files/Events" FILES ${UGAME_SOURCE_EVENTS})
 source_group("Source Files/Platform" FILES ${UGAME_SOURCE_PLATFORM})
 source_group("Source Files/Platform/Windows" FILES ${UGAME_SOURCE_PLATFORM_WINDOWS})
+source_group("Source Files/ImGui" FILES ${UGAME_SOURCE_IMGUI})
+source_group("Source Files/Platform/OpenGL" FILES ${UGAME_SOURCE_PLATFORM_OPENGL})
 
 if (WIN32)
       target_compile_definitions(UGame PRIVATE UG_BUILD_DLL=1 UG_PLATFORM_WINDOWS=1) 
@@ -71,6 +86,7 @@ target_compile_definitions(UGame PRIVATE _UNICODE=1 GLFW_INCLUDE_NONE=1)
 add_subdirectory(ThirdParty/spdlog)
 add_subdirectory(ThirdParty/GLFW)
 add_subdirectory(ThirdParty/GLAD)
+add_subdirectory(ThirdParty/ImGui)
 
 
  
