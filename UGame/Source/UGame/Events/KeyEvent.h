@@ -59,4 +59,21 @@ namespace UGame
 			return ss.str();
 		}
 	};
+
+	class UGAME_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+
+		EVENT_CLASS_TYPE(KeyTyped)
+
+		KeyTypedEvent(int keyCode) : KeyEvent(keyCode)
+		{}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << keyCode;
+			return ss.str();
+		}
+	};
 }
