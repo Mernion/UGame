@@ -25,6 +25,8 @@ set(UGAME_SOURCE_EVENTS
 	"Source/UGame/Events/Event.h"
 	"Source/UGame/Events/KeyEvent.h"
 	"Source/UGame/Events/MouseEvent.h"
+	"Source/UGame/Events/MouseButtonCodes.h"
+	"Source/UGame/Events/KeyCodes.h"
 )
 
 set(UGAME_SOURCE_IMGUI

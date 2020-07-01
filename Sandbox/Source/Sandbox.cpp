@@ -8,12 +8,14 @@ public:
 
 	void OnUpdate() override
 	{
-		UG_INFO("{0}", __func__);
+		if (UGame::Input::IsKeyPressed(UG_KEY_TAB))
+		{
+			UG_TRACE("tab key is pressed");
+		}
 	}
 
 	void OnEvent(UGame::Event& event) override
 	{
-		UG_TRACE("{0}", event);
 	}
 };
 

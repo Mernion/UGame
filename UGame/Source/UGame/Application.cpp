@@ -47,9 +47,6 @@ namespace UGame
 				layer->OnUpdate();
 			}
 
-			auto [x, y] = Input::GetMousePosition();
-			UG_CORE_TRACE("{0}, {1}", x, y);
-
 			window->OnUpdate();
 		}
 	}
