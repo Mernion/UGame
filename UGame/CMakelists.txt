@@ -71,6 +71,7 @@ target_link_libraries(UGame PUBLIC glfw)
 target_link_libraries(UGame PUBLIC opengl32)
 target_link_libraries(UGame PUBLIC GLAD)
 target_link_libraries(UGame PUBLIC ImGui)
+target_link_libraries(UGame PUBLIC glm)
   
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
@@ -92,6 +93,7 @@ add_subdirectory(ThirdParty/spdlog)
 add_subdirectory(ThirdParty/GLFW)
 add_subdirectory(ThirdParty/GLAD)
 add_subdirectory(ThirdParty/ImGui)
+add_subdirectory(ThirdParty/glm)
 
 
  

@@ -8,3 +8,6 @@
 [submodule "UGame/ThirdParty/imgui"]
 	path = UGame/ThirdParty/imgui
 	url = https://github.com/Mernion/imgui.git
+[submodule "UGame/ThirdParty/glm"]
+	path = UGame/ThirdParty/glm
+	url = https://github.com/g-truc/glm.git
