@@ -11,6 +11,8 @@ set(UGAME_SOURCE_PLATFORM "")
 set(UGAME_SOURCE_PLATFORM_WINDOWS 
       	"Source/Platform/Windows/WindowsWindow.cpp"
       	"Source/Platform/Windows/WindowsWindow.h"
+	"Source/Platform/Windows/WindowsInput.h"
+	"Source/Platform/Windows/WindowsInput.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL 
@@ -42,6 +44,7 @@ set(UGAME_SOURCE
 	"Source/UGame/Layer.cpp"
 	"Source/UGame/LayerStack.cpp"
 	"Source/UGame/LayerStack.h"
+	"Source/UGame/Input.h"
 )
 
 set(UGAME_SRC 	${UGAME_SOURCE} 

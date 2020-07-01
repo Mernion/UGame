@@ -25,6 +25,8 @@ namespace UGame
 
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+		
+		inline void* GetNativeWindow() const override { return window; }
 
 	private:
 
