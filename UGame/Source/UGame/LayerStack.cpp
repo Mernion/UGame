@@ -4,7 +4,6 @@ namespace UGame
 {
 	LayerStack::LayerStack()
 	{
-		layerInsert = layers.begin();
 	}
 
 	LayerStack::~LayerStack()
@@ -17,8 +16,8 @@ namespace UGame
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		layerInsert = layers.emplace(layerInsert, layer);
-		layer->OnAttach();
+		layers.emplace(layers.begin() + layerInsert, layer);
+		layerInsert++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)

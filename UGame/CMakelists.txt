@@ -15,11 +15,6 @@ set(UGAME_SOURCE_PLATFORM_WINDOWS
 	"Source/Platform/Windows/WindowsInput.cpp"
 )
 
-set(UGAME_SOURCE_PLATFORM_OPENGL 
-	"Source/Platform/OpenGL/ImGuiOpenGLRenderer.cpp"
-	"Source/Platform/OpenGL/ImGuiOpenGLRenderer.h"
-)
-
 set(UGAME_SOURCE_EVENTS
 	"Source/UGame/Events/ApplicationEvent.h"
 	"Source/UGame/Events/Event.h"
@@ -32,6 +27,7 @@ set(UGAME_SOURCE_EVENTS
 set(UGAME_SOURCE_IMGUI
 	"Source/UGame/ImGui/ImGuiLayer.cpp"
 	"Source/UGame/ImGui/ImGuiLayer.h"
+	"Source/UGame/ImGui/ImGuiBuild.cpp"
 )
 
 set(UGAME_SOURCE
@@ -55,7 +51,6 @@ set(UGAME_SRC 	${UGAME_SOURCE}
 		${UGAME_SOURCE_PLATFORM} 
 		${UGAME_SOURCE_PLATFORM_WINDOWS}
 		${UGAME_SOURCE_IMGUI}
-		${UGAME_SOURCE_PLATFORM_OPENGL}
 )
 
 add_library(UGame SHARED ${UGAME_SRC})
@@ -81,7 +76,6 @@ source_group("Source Files/Events" FILES ${UGAME_SOURCE_EVENTS})
 source_group("Source Files/Platform" FILES ${UGAME_SOURCE_PLATFORM})
 source_group("Source Files/Platform/Windows" FILES ${UGAME_SOURCE_PLATFORM_WINDOWS})
 source_group("Source Files/ImGui" FILES ${UGAME_SOURCE_IMGUI})
-source_group("Source Files/Platform/OpenGL" FILES ${UGAME_SOURCE_PLATFORM_OPENGL})
 
 if (WIN32)
       target_compile_definitions(UGame PRIVATE UG_BUILD_DLL=1 UG_PLATFORM_WINDOWS=1) 

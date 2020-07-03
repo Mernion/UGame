@@ -18,6 +18,9 @@ namespace UGame
 
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
+
+		imGuiLayer = new ImGuiLayer();
+		layerStack.PushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()
@@ -46,6 +49,13 @@ namespace UGame
 			{
 				layer->OnUpdate();
 			}
+
+			imGuiLayer->Begin();
+			for (Layer* layer : layerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			imGuiLayer->End();
 
 			window->OnUpdate();
 		}

@@ -3,6 +3,7 @@
 #include "LayerStack.h"
 #include <memory>
 #include "Window.h"
+#include "UGame/ImGui/ImGuiLayer.h"
 
 namespace UGame
 {
@@ -34,6 +35,7 @@ namespace UGame
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> window;
+		ImGuiLayer* imGuiLayer;
 		bool running = true;
 
 		LayerStack layerStack;

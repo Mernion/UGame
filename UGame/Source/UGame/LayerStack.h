@@ -23,6 +23,6 @@ namespace UGame
 
 	private:
 		std::vector<Layer*> layers;
-		std::vector<Layer*>::iterator layerInsert;
+		unsigned int layerInsert{ 0 };
 	};
 }

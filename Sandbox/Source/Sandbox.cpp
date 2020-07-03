@@ -1,10 +1,14 @@
 #include "UGame.h"
 
+#include "imgui.h"
+
 class ExampleLayer : public UGame::Layer
 {
 public:
 
-	ExampleLayer() : Layer("Example") {}
+	ExampleLayer() : Layer("Example") 
+	{
+	}
 
 	void OnUpdate() override
 	{
@@ -12,6 +16,10 @@ public:
 		{
 			UG_TRACE("tab key is pressed");
 		}
+	}
+
+	void OnImGuiRender() override
+	{
 	}
 
 	void OnEvent(UGame::Event& event) override
@@ -25,7 +33,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new UGame::ImGuiLayer());
 	}
 
 	~Sandbox()
