@@ -2,6 +2,7 @@
 #include "UGame/Window.h"
 
 struct GLFWwindow;
+class GraphicsContext;
 
 namespace UGame
 {
@@ -34,6 +35,7 @@ namespace UGame
 		virtual void Shutdown();
 
 		GLFWwindow* window;
+		GraphicsContext* graphicsContext;
 
 		struct WindowData
 		{

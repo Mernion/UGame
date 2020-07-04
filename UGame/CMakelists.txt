@@ -6,9 +6,16 @@ set(UGAME_ROOT
 	"Source/UGame.h"
 )
 
-set(UGAME_SOURCE_PLATFORM "")
+set(UGAME_SOURCE_RENDERER
+	"Source/Renderer/GraphicsContext.h"
+)
 
-set(UGAME_SOURCE_PLATFORM_WINDOWS 
+set(UGAME_SOURCE_PLATFORM_OPENGL
+	"Source/Platform/OpenGL/OpenGLContext.cpp"
+	"Source/Platform/OpenGL/OpenGLContext.h"
+)
+
+set(UGAME_SOURCE_PLATFORM_WINDOWS
       	"Source/Platform/Windows/WindowsWindow.cpp"
       	"Source/Platform/Windows/WindowsWindow.h"
 	"Source/Platform/Windows/WindowsInput.h"
@@ -51,8 +58,9 @@ set(UGAME_SOURCE
 set(UGAME_SRC 	${UGAME_SOURCE} 
 		${UGAME_ROOT} 
 		${UGAME_SOURCE_EVENTS} 
-		${UGAME_SOURCE_PLATFORM} 
+		${UGAME_SOURCE_PLATFORM_OPENGL}	
 		${UGAME_SOURCE_PLATFORM_WINDOWS}
+		${UGAME_SOURCE_RENDERER}
 		${UGAME_SOURCE_IMGUI}
 )
 
@@ -76,8 +84,9 @@ target_link_libraries(UGame PUBLIC glm)
 source_group("" FILES ${UGAME_ROOT})
 source_group("Source Files" FILES ${UGAME_SOURCE})
 source_group("Source Files/Events" FILES ${UGAME_SOURCE_EVENTS})
-source_group("Source Files/Platform" FILES ${UGAME_SOURCE_PLATFORM})
 source_group("Source Files/Platform/Windows" FILES ${UGAME_SOURCE_PLATFORM_WINDOWS})
+source_group("Source Files/Platform/OpenGL" FILES ${UGAME_SOURCE_PLATFORM_OPENGL})
+source_group("Source Files/Renderer" FILES ${UGAME_SOURCE_RENDERER})
 source_group("Source Files/ImGui" FILES ${UGAME_SOURCE_IMGUI})
 
 if (WIN32)

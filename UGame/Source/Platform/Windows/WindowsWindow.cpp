@@ -3,7 +3,7 @@
 #include "UGame/Events/KeyEvent.h"
 #include "UGame/Events/MouseEvent.h"
 #include "UGame/Log.h"
-#include "glad/glad.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 #include "GLFW/glfw3.h"
 
 namespace UGame
@@ -49,9 +49,10 @@ namespace UGame
 		window = glfwCreateWindow(props.width,
 			props.height,
 			props.title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		UG_CORE_ASSERT(status, "Failed to initialize Glad");
+
+		graphicsContext = new OpenGLContext(window);
+		graphicsContext->Init();
+
 		glfwSetWindowUserPointer(window, &data);
 		SetVSync(true);
 
@@ -153,7 +154,7 @@ namespace UGame
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		graphicsContext->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
