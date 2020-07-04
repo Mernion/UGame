@@ -1,7 +1,8 @@
 #include "ImGuiLayer.h"
+
 #include "imgui.h"
-#include "examples/imgui_impl_opengl3.h"
-#include "examples/imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
 #include "UGame/Application.h"
 #include "UGame/Events/Event.h"
 #include "UGame/Events/MouseEvent.h"
@@ -10,6 +11,7 @@
 
 #include "GLFW/glfw3.h" //tmp
 #include "glad/glad.h"
+
 
 namespace UGame
 {

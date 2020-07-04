@@ -27,7 +27,10 @@ set(UGAME_SOURCE_EVENTS
 set(UGAME_SOURCE_IMGUI
 	"Source/UGame/ImGui/ImGuiLayer.cpp"
 	"Source/UGame/ImGui/ImGuiLayer.h"
-	"Source/UGame/ImGui/ImGuiBuild.cpp"
+	"Source/UGame/ImGui/imgui_impl_opengl3.h"
+	"Source/UGame/ImGui/imgui_impl_glfw.h"
+	"Source/UGame/ImGui/imgui_impl_opengl3.cpp"
+	"Source/UGame/ImGui/imgui_impl_glfw.cpp"
 )
 
 set(UGAME_SOURCE

@@ -17,6 +17,7 @@ namespace UGame
 	void LayerStack::PushLayer(Layer* layer)
 	{
 		layers.emplace(layers.begin() + layerInsert, layer);
+		layer->OnAttach();
 		layerInsert++;
 	}
 
@@ -32,6 +33,7 @@ namespace UGame
 		if (it != layers.end())
 		{
 			layers.erase(it);
+			layer->OnDetach();
 			layerInsert--;
 		}
 	}
@@ -41,6 +43,7 @@ namespace UGame
 		auto it = std::find(layers.begin(), layers.end(), overlay);
 		if (it != layers.end())
 		{
+			overlay->OnDetach();
 			layers.erase(it);
 		}
 	}
