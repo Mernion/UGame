@@ -40,11 +40,27 @@ namespace UGame
 
 	void Application::Run()
 	{
+		float positions[6] = {
+			-0.5, -0.5f,
+			0.f, 0.5f,
+			0.5f, -0.5f
+		};
+
+		unsigned int buffer;
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+		glEnableVertexAttribArray(0);
+
 		while (running)
 		{
-			glClearColor(1, 0, 1, 1);
+			glClearColor(0.15f, 0.15f, 0.15f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
-			
+
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+
 			for (Layer* layer : layerStack)
 			{
 				layer->OnUpdate();
