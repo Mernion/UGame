@@ -4,8 +4,11 @@
 #include "Layer.h"
 #include "Input.h"
 #include "Log.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 #include "glad/glad.h"
+#include <memory>
+#include "Renderer/Shader.h"
 
 namespace UGame
 {
@@ -57,35 +60,16 @@ namespace UGame
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		const std::string vertexShaderSrc = R"(
-			#version 330 core
+			#version 410 core
 			layout (location = 0) in vec3 aPos;
 
 			void main()
 			{
 				gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 			})";
-		unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-		const GLchar* vertexSrc = vertexShaderSrc.c_str();
-		glShaderSource(vertexShader, 1, &vertexSrc, NULL);
-		glCompileShader(vertexShader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-			glDeleteShader(vertexShader);
-			return;
-		}
 
 		const std::string fragmentShaderSrc = R"(
-		#version 330 core
+		#version 410 core
 		out vec4 FragColor;
 		
 		void main()
@@ -93,45 +77,15 @@ namespace UGame
 			FragColor = vec4(1.f, 0.5f, 0.2f, 1.f);
 		})";
 
-		unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		const GLchar* fragmentSrc = vertexShaderSrc.c_str();
-		glShaderSource(fragmentShader, 1, &fragmentSrc, NULL);
-		glCompileShader(fragmentShader);
-
-		GLint isFragmentCompiled = 0;
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isFragmentCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-			return;
-		}
-
-		unsigned int shaderProgram = glCreateProgram();
-		glAttachShader(shaderProgram, vertexShader);
-		glAttachShader(shaderProgram, fragmentShader);
-		glLinkProgram(shaderProgram);
-
-		glUseProgram(shaderProgram);
-
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
+		std::unique_ptr<Shader> shader = std::make_unique<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
+		shader->Bind();
+			
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-
-
 		while (running)
 		{
-			glClearColor(1, 0, 1, 1);
+			glClearColor(0.2, 0.2, 0.2, 0.2);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
 			glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -151,6 +105,8 @@ namespace UGame
 
 			window->OnUpdate();
 		}
+
+		shader->Unbind();
 	}
 	void Application::OnEvent(Event& e)
 	{

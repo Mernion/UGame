@@ -8,11 +8,15 @@ set(UGAME_ROOT
 
 set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/GraphicsContext.h"
+	"Source/Renderer/Shader.h"
+	"Source/Renderer/Shader.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL
 	"Source/Platform/OpenGL/OpenGLContext.cpp"
 	"Source/Platform/OpenGL/OpenGLContext.h"
+	"Source/Platform/OpenGL/OpenGLShader.h"
+	"Source/Platform/OpenGL/OpenGLShader.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_WINDOWS
