@@ -1,12 +1,11 @@
 #pragma once
 #include "UGame/Window.h"
+#include "Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
-class GraphicsContext;
 
 namespace UGame
 {
-
 	class WindowsWindow : public Window
 	{
 	public:

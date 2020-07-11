@@ -50,7 +50,7 @@ namespace UGame
 			props.height,
 			props.title.c_str(), nullptr, nullptr);
 
-		graphicsContext = new OpenGLContext(window);
+		graphicsContext = static_cast<GraphicsContext*>(new OpenGLContext(window));
 		graphicsContext->Init();
 
 		glfwSetWindowUserPointer(window, &data);

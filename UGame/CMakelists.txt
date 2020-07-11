@@ -10,6 +10,12 @@ set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/GraphicsContext.h"
 	"Source/Renderer/Shader.h"
 	"Source/Renderer/Shader.cpp"
+	"Source/Renderer/VertexBuffer.h"
+	"Source/Renderer/VertexBuffer.cpp"
+	"Source/Renderer/IndexBuffer.h"
+	"Source/Renderer/IndexBuffer.cpp"
+	"Source/Renderer/Renderer.h"
+	"Source/Renderer/Renderer.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL
@@ -17,11 +23,15 @@ set(UGAME_SOURCE_PLATFORM_OPENGL
 	"Source/Platform/OpenGL/OpenGLContext.h"
 	"Source/Platform/OpenGL/OpenGLShader.h"
 	"Source/Platform/OpenGL/OpenGLShader.cpp"
+	"Source/Platform/OpenGL/OpenGLVertexBuffer.h"
+	"Source/Platform/OpenGL/OpenGLVertexBuffer.cpp"
+	"Source/Platform/OpenGL/OpenGLIndexBuffer.h"
+	"Source/Platform/OpenGL/OpenGLIndexBuffer.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_WINDOWS
-      	"Source/Platform/Windows/WindowsWindow.cpp"
-      	"Source/Platform/Windows/WindowsWindow.h"
+	"Source/Platform/Windows/WindowsWindow.cpp"
+	"Source/Platform/Windows/WindowsWindow.h"
 	"Source/Platform/Windows/WindowsInput.h"
 	"Source/Platform/Windows/WindowsInput.cpp"
 )
@@ -45,12 +55,12 @@ set(UGAME_SOURCE_IMGUI
 )
 
 set(UGAME_SOURCE
-      	"Source/UGame/Application.cpp"
-      	"Source/UGame/Application.h"
-      	"Source/UGame/Core.h"
-      	"Source/UGame/EntryPoint.h"
-      	"Source/UGame/Log.cpp"
-      	"Source/UGame/Log.h"
+	"Source/UGame/Application.cpp"
+	"Source/UGame/Application.h"
+	"Source/UGame/Core.h"
+	"Source/UGame/EntryPoint.h"
+	"Source/UGame/Log.cpp"
+	"Source/UGame/Log.h"
 	"Source/UGame/Window.h"
 	"Source/UGame/Layer.h"
 	"Source/UGame/Layer.cpp"

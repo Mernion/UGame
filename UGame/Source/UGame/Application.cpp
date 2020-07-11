@@ -4,11 +4,15 @@
 #include "Layer.h"
 #include "Input.h"
 #include "Log.h"
+
+#include "Renderer/Shader.h"
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Renderer/VertexBuffer.h"
+#include "Renderer/IndexBuffer.h"
 
 #include "glad/glad.h"
 #include <memory>
-#include "Renderer/Shader.h"
+
 
 namespace UGame
 {
@@ -43,7 +47,7 @@ namespace UGame
 
 	void Application::Run()
 	{
-		const float vertices[] = {
+		float vertices[] = {
 			-0.5f, -0.5f, 0.f,
 			0.f, 0.5f, 0.f,
 			0.5f, -0.5f, 0.f
@@ -53,11 +57,7 @@ namespace UGame
 		glGenVertexArrays(1, &vertexArray);
 		glBindVertexArray(vertexArray);
 
-		unsigned int vertexBuffer;
-		glCreateBuffers(1, &vertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-		
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		std::unique_ptr<VertexBuffer> vertexBuffer{ VertexBuffer::Create(vertices, sizeof(vertices)) };
 
 		const std::string vertexShaderSrc = R"(
 			#version 410 core
@@ -89,8 +89,6 @@ namespace UGame
 			glClear(GL_COLOR_BUFFER_BIT);
 			
 			glDrawArrays(GL_TRIANGLES, 0, 3);
-
-
 			for (Layer* layer : layerStack)
 			{
 				layer->OnUpdate();
