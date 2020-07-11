@@ -7,9 +7,17 @@ namespace UGame
 	{
 	public:
 
-		OpenGLIndexBuffer(float* data, size_t count);
+		OpenGLIndexBuffer(unsigned int* data, size_t size);
 		
 		void Bind() override;
 		void Unbind() override;
+		size_t GetCount() const override;
+		~OpenGLIndexBuffer();
+
+	private:
+		
+		unsigned int bufferId;
+
+		size_t count;
 	};
 }

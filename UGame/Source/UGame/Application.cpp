@@ -47,17 +47,23 @@ namespace UGame
 
 	void Application::Run()
 	{
-		float vertices[] = {
-			-0.5f, -0.5f, 0.f,
-			0.f, 0.5f, 0.f,
-			0.5f, -0.5f, 0.f
-		};
-
 		unsigned int vertexArray;
 		glGenVertexArrays(1, &vertexArray);
 		glBindVertexArray(vertexArray);
 
+		float vertices[] = {
+			-0.5f, -0.5f, 0.f,
+			0.f, 0.5f, 0.f,
+			0.5f, -0.5f, 0.f,
+			0.f, -1.f, 0.f
+		};
 		std::unique_ptr<VertexBuffer> vertexBuffer{ VertexBuffer::Create(vertices, sizeof(vertices)) };
+
+		unsigned int indecies[] = {
+			0, 1, 2,
+			0, 3, 2
+		};
+		std::unique_ptr<IndexBuffer> indexBuffer{ IndexBuffer::Create(indecies, sizeof(indecies)) };
 
 		const std::string vertexShaderSrc = R"(
 			#version 410 core
@@ -87,8 +93,8 @@ namespace UGame
 		{
 			glClearColor(0.2, 0.2, 0.2, 0.2);
 			glClear(GL_COLOR_BUFFER_BIT);
-			
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+
+			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 			for (Layer* layer : layerStack)
 			{
 				layer->OnUpdate();

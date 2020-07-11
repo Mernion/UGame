@@ -5,7 +5,7 @@
 
 namespace UGame
 {
-	IndexBuffer* IndexBuffer::Create(float* data, size_t count)
+	IndexBuffer* IndexBuffer::Create(unsigned int* data, size_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -14,7 +14,7 @@ namespace UGame
 			return nullptr;
 			break;
 		case RendererAPI::OpenGL:
-            return new OpenGLIndexBuffer(data, count);
+            return new OpenGLIndexBuffer(data, size);
 			break;
 		}
 
