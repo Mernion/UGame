@@ -1,6 +1,5 @@
 #pragma once
-
-class BufferLayout;
+#include "Renderer/BufferLayout.h"
 
 namespace UGame
 {

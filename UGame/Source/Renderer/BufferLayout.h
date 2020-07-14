@@ -1,3 +1,4 @@
+#pragma once
 #include "UGame/Core.h"
 #include <string>
 #include <vector>
@@ -73,6 +74,8 @@ namespace UGame
 	class BufferLayout
 	{
 	public:
+		BufferLayout() = default;
+
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: elements(elements)
 		{
