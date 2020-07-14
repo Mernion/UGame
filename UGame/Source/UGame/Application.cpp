@@ -54,14 +54,12 @@ namespace UGame
 		float vertices[] = {
 			-0.5f, -0.5f, 0.f,
 			0.f, 0.5f, 0.f,
-			0.5f, -0.5f, 0.f,
-			0.f, -1.f, 0.f
+			0.5f, -0.5f, 0.f
 		};
 		std::shared_ptr<VertexBuffer> vertexBuffer{ VertexBuffer::Create(vertices, sizeof(vertices)) };
 		BufferLayout layout =
 		{
-			{ ShaderDataType::Float3, "a_Position"},
-			{ ShaderDataType::Float4, "a_Color" }
+			{ ShaderDataType::Float3, "a_Position"}
 		};
 		vertexBuffer->SetLayout(layout);
 
