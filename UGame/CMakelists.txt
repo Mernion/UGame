@@ -16,6 +16,8 @@ set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/IndexBuffer.cpp"
 	"Source/Renderer/Renderer.h"
 	"Source/Renderer/Renderer.cpp"
+	"Source/Renderer/VertexArray.h"
+	"Source/Renderer/VertexArray.cpp"
 	"Source/Renderer/BufferLayout.h"
 	"Source/Renderer/BufferLayout.cpp"
 )
@@ -29,6 +31,8 @@ set(UGAME_SOURCE_PLATFORM_OPENGL
 	"Source/Platform/OpenGL/OpenGLVertexBuffer.cpp"
 	"Source/Platform/OpenGL/OpenGLIndexBuffer.h"
 	"Source/Platform/OpenGL/OpenGLIndexBuffer.cpp"
+	"Source/Platform/OpenGL/OpenGLVertexArray.h"
+	"Source/Platform/OpenGL/OpenGLVertexArray.cpp"
 	"Source/Platform/OpenGL/OpenGLBufferLayout.h"
 	"Source/Platform/OpenGL/OpenGLBufferLayout.cpp"
 )

@@ -9,6 +9,9 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/IndexBuffer.h"
+#include "Renderer/VertexArray.h"
+
+#include "Renderer/BufferLayout.h"
 
 #include "glad/glad.h"
 #include <memory>
@@ -47,9 +50,6 @@ namespace UGame
 
 	void Application::Run()
 	{
-		unsigned int vertexArray;
-		glGenVertexArrays(1, &vertexArray);
-		glBindVertexArray(vertexArray);
 
 		float vertices[] = {
 			-0.5f, -0.5f, 0.f,
@@ -57,44 +57,64 @@ namespace UGame
 			0.5f, -0.5f, 0.f,
 			0.f, -1.f, 0.f
 		};
-		std::unique_ptr<VertexBuffer> vertexBuffer{ VertexBuffer::Create(vertices, sizeof(vertices)) };
+		std::shared_ptr<VertexBuffer> vertexBuffer{ VertexBuffer::Create(vertices, sizeof(vertices)) };
+		BufferLayout layout =
+		{
+			{ ShaderDataType::Float3, "a_Position"},
+			{ ShaderDataType::Float4, "a_Color" }
+		};
+		vertexBuffer->SetLayout(layout);
 
 		unsigned int indecies[] = {
-			0, 1, 2,
-			0, 3, 2
+			0, 1, 2
 		};
-		std::unique_ptr<IndexBuffer> indexBuffer{ IndexBuffer::Create(indecies, sizeof(indecies)) };
+		std::shared_ptr<IndexBuffer> indexBuffer{ IndexBuffer::Create(indecies, sizeof(indecies)) };
 
+		std::unique_ptr<VertexArray> vertexArray{ VertexArray::Create() };
+		vertexArray->AddVertexBuffer(vertexBuffer);
+		vertexArray->SetIndexBuffer(indexBuffer);
+		
 		const std::string vertexShaderSrc = R"(
 			#version 410 core
-			layout (location = 0) in vec3 aPos;
+		
+			layout (location = 0) in vec3 a_Position;
+			layout (location = 1) in vec4 a_Color;
+
+			out vec3 v_Position;
+			out vec4 v_Color;
 
 			void main()
 			{
-				gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+				v_Position = a_Position;
+				v_Color = a_Color;
+				gl_Position = vec4(a_Position, 1.0);
 			})";
 
 		const std::string fragmentShaderSrc = R"(
 		#version 410 core
-		out vec4 FragColor;
+
+		layout(location = 0) out vec4 color;
+
+		in vec3 v_Position;
+		in vec4 v_Color;
 		
 		void main()
 		{
-			FragColor = vec4(1.f, 0.5f, 0.2f, 1.f);
+			color = vec4(v_Position * 0.5 + 0.5, 1.0);
+			color = v_Color;
 		})";
 
 		std::unique_ptr<Shader> shader = std::make_unique<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
-		shader->Bind();
-			
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
 
 		while (running)
 		{
 			glClearColor(0.2, 0.2, 0.2, 0.2);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			shader->Bind();
+			vertexArray->Bind();
 			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			
 			for (Layer* layer : layerStack)
 			{
 				layer->OnUpdate();
