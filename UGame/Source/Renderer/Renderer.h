@@ -11,7 +11,7 @@ namespace UGame
 	class Renderer
 	{
 	public:
-		inline static RendererAPI GetAPI();
+		static RendererAPI GetAPI() { return API; };
 
 	private:
 		static RendererAPI API;

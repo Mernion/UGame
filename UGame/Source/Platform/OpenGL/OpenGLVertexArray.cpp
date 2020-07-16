@@ -1,6 +1,8 @@
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 #include <glad/glad.h>
+#include "Renderer/IndexBuffer.h"
+#include "Renderer/BufferLayout.h"
 
 namespace UGame
 {
@@ -29,6 +31,12 @@ namespace UGame
 	{
 		glCreateVertexArrays(1, &Id);
 	}
+
+	OpenGLVertexArray::~OpenGLVertexArray()
+	{
+		glDeleteVertexArrays(1, &Id);
+	}
+
 
 	void OpenGLVertexArray::Bind()
 	{
@@ -66,4 +74,16 @@ namespace UGame
 
 		this->indexBuffer = indexBuffer;
 	}
+
+	std::shared_ptr<IndexBuffer> OpenGLVertexArray::GetIndexBuffer() const
+	{
+		return indexBuffer;
+	}
+
+	std::vector<std::shared_ptr<VertexBuffer>> OpenGLVertexArray::GetVertexBuffers() const
+	{
+		return vertexBuffers;
+	}
+
+
 }
