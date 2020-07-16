@@ -16,6 +16,9 @@
 #include "glad/glad.h"
 #include <memory>
 
+#include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
+
 
 namespace UGame
 {
@@ -68,7 +71,7 @@ namespace UGame
 		};
 		std::shared_ptr<IndexBuffer> indexBuffer{ IndexBuffer::Create(indecies, sizeof(indecies)) };
 
-		std::unique_ptr<VertexArray> vertexArray{ VertexArray::Create() };
+		std::shared_ptr<VertexArray> vertexArray{ VertexArray::Create() };
 		vertexArray->AddVertexBuffer(vertexBuffer);
 		vertexArray->SetIndexBuffer(indexBuffer);
 		
@@ -101,13 +104,17 @@ namespace UGame
 
 		while (running)
 		{
-			glClearColor(0.2, 0.2, 0.2, 0.2);
-			glClear(GL_COLOR_BUFFER_BIT);
 
-			shader->Bind();
-			vertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			RenderCommand::SetClearColor({ 0.2, 0.2, 0.2, 0.2 });
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
 			
+			shader->Bind();
+			Renderer::Submit(vertexArray);
+
+			Renderer::EndScene();
+
 			for (Layer* layer : layerStack)
 			{
 				layer->OnUpdate();

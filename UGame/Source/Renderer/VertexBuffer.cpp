@@ -9,11 +9,11 @@ namespace UGame
 	{
 		switch(Renderer::GetAPI())
 		{
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 			UG_CORE_ASSERT(false, "Not Implemented renderer used");
 			return nullptr;
 			break;
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLVertexBuffer(data, size);
 			break;
 		}

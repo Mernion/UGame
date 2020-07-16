@@ -20,6 +20,10 @@ set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/VertexArray.cpp"
 	"Source/Renderer/BufferLayout.h"
 	"Source/Renderer/BufferLayout.cpp"
+	"Source/Renderer/RendererAPI.h"
+	"Source/Renderer/RendererAPI.cpp"
+	"Source/Renderer/RenderCommand.h"
+	"Source/Renderer/RenderCommand.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL
@@ -35,6 +39,8 @@ set(UGAME_SOURCE_PLATFORM_OPENGL
 	"Source/Platform/OpenGL/OpenGLVertexArray.cpp"
 	"Source/Platform/OpenGL/OpenGLBufferLayout.h"
 	"Source/Platform/OpenGL/OpenGLBufferLayout.cpp"
+	"Source/Platform/OpenGL/OpenGLRendererAPI.h"
+	"Source/Platform/OpenGL/OpenGLRendererAPI.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_WINDOWS

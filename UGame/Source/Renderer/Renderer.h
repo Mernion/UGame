@@ -1,19 +1,20 @@
 #pragma once
+#include "RenderCommand.h"
+#include "RendererAPI.h"
 
 namespace UGame
 {
-	enum class RendererAPI
-	{
-		None,
-		OpenGL
-	};
-	
 	class Renderer
 	{
 	public:
-		static RendererAPI GetAPI() { return API; };
+		static void BeginScene();
+		static void EndScene();
 
-	private:
-		static RendererAPI API;
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+
+		static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+
+
 	};
 }
