@@ -12,6 +12,8 @@ namespace UGame
 		void Bind() override;
 		void Unbind() override;
 
+		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) override;
+		
 	private:
 
 		unsigned int programId;

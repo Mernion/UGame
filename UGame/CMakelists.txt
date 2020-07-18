@@ -24,6 +24,8 @@ set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/RendererAPI.cpp"
 	"Source/Renderer/RenderCommand.h"
 	"Source/Renderer/RenderCommand.cpp"
+	"Source/Renderer/OrthographicCamera.h"
+	"Source/Renderer/OrthographicCamera.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL

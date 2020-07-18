@@ -1,6 +1,7 @@
 #include "OpenGLShader.h"
 #include "glad/glad.h"
 #include <vector>
+#include <glm/gtc/type_ptr.hpp>
 #include "UGame/Log.h"
 
 namespace UGame
@@ -49,7 +50,7 @@ namespace UGame
 			return;
 		}
 
-		unsigned int programId = glCreateProgram();
+		programId = glCreateProgram();
 		glAttachShader(programId, vertexShader);
 		glAttachShader(programId, fragmentShader);
 		glLinkProgram(programId);
@@ -80,6 +81,13 @@ namespace UGame
 		glDeleteShader(fragmentShader);
 	}
 
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		GLint location = glGetUniformLocation(programId, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	
 	void OpenGLShader::Bind()
 	{
 		glUseProgram(programId);

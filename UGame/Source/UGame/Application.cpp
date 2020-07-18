@@ -12,19 +12,14 @@
 #include "Renderer/VertexArray.h"
 
 #include "Renderer/BufferLayout.h"
-
-#include "glad/glad.h"
-#include <memory>
-
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
-
 
 namespace UGame
 {
 	Application* Application::instance = nullptr;
 
-	Application::Application()
+	Application::Application() : camera(-1.f, 1.f, -1.f, 1.f)
 	{
 		UG_CORE_ASSERT(!instance, "Application already exist");
 		instance = this;
@@ -53,7 +48,6 @@ namespace UGame
 
 	void Application::Run()
 	{
-
 		float vertices[] = {
 			-0.5f, -0.5f, 0.f,
 			0.f, 0.5f, 0.f,
@@ -80,37 +74,41 @@ namespace UGame
 		
 			layout (location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjection;
+		
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
-			})";
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+			}
+		)";
 
 		const std::string fragmentShaderSrc = R"(
-		#version 410 core
+			#version 410 core
 
-		layout(location = 0) out vec4 color;
+			layout(location = 0) out vec4 color;
 
-		in vec3 v_Position;
-		
-		void main()
-		{
-			color = vec4(v_Position * 0.5 + 0.5, 1.0);
-		})";
+			in vec3 v_Position;
+			
+			void main()
+			{
+				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+			}
+		)";
 
 		std::unique_ptr<Shader> shader = std::make_unique<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
 
 		while (running)
 		{
-
 			RenderCommand::SetClearColor({ 0.2, 0.2, 0.2, 0.2 });
 			RenderCommand::Clear();
 
 			Renderer::BeginScene();
 			
 			shader->Bind();
+			shader->UploadUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 			Renderer::Submit(vertexArray);
 
 			Renderer::EndScene();

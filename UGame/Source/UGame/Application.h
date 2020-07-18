@@ -4,6 +4,7 @@
 #include <memory>
 #include "Window.h"
 #include "UGame/ImGui/ImGuiLayer.h"
+#include "Renderer/OrthographicCamera.h"
 
 namespace UGame
 {
@@ -26,9 +27,9 @@ namespace UGame
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		inline Window& GetWindow() { return *window; }
+		Window& GetWindow() { return *window; }
 
-		inline static Application& Get() { return *instance; }
+		static Application& Get() { return *instance; }
 
 	private:
 
@@ -41,6 +42,8 @@ namespace UGame
 		LayerStack layerStack;
 
 		static Application* instance;
+
+		OrthographicCamera camera;
 	};
 
 	// should be defined in the client
