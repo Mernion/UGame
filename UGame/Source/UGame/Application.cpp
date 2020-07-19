@@ -6,7 +6,6 @@
 #include "Log.h"
 
 #include "Renderer/Shader.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/VertexArray.h"
@@ -98,18 +97,16 @@ namespace UGame
 			}
 		)";
 
-		std::unique_ptr<Shader> shader = std::make_unique<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
+		std::shared_ptr<Shader> shader{ Shader::Create(vertexShaderSrc, fragmentShaderSrc) };
 
 		while (running)
 		{
 			RenderCommand::SetClearColor({ 0.2, 0.2, 0.2, 0.2 });
 			RenderCommand::Clear();
-
-			Renderer::BeginScene();
 			
-			shader->Bind();
-			shader->UploadUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-			Renderer::Submit(vertexArray);
+			Renderer::BeginScene(camera);
+			
+			Renderer::Submit(vertexArray, shader);
 
 			Renderer::EndScene();
 

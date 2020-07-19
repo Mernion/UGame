@@ -84,6 +84,7 @@ namespace UGame
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
 	{
 		GLint location = glGetUniformLocation(programId, name.c_str());
+		UG_CORE_ASSERT(location != -1, "Uniform location is empty!");
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
