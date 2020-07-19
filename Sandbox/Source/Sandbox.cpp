@@ -2,6 +2,8 @@
 
 #include "imgui.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer : public UGame::Layer
 {
 public:
@@ -35,13 +37,15 @@ public:
 			layout (location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
 		
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -99,7 +103,18 @@ public:
 		
 		UGame::Renderer::BeginScene(camera);
 
-		UGame::Renderer::Submit(vertexArray, shader);
+		glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
+		for (int y=0; y < 20; y++)
+		{
+			for (int x=0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.f), pos) * scale;
+				UGame::Renderer::Submit(vertexArray, shader, transform);
+			}
+		}
+
+		//UGame::Renderer::Submit(vertexArray, shader);
 
 		UGame::Renderer::EndScene();
 	}
