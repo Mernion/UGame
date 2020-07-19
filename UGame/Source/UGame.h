@@ -18,6 +18,7 @@
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/OrthographicCamera.h"
 
+#include "Core/Timestep.h"
 
 #include "UGame/EntryPoint.h"
 

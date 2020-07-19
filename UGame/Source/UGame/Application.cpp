@@ -1,18 +1,12 @@
 #include "Application.h"
+
+#include "Core/Timestep.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
+#include "GLFW/glfw3.h"
 #include "Layer.h"
 #include "Input.h"
 #include "Log.h"
-
-#include "Renderer/Shader.h"
-#include "Renderer/VertexBuffer.h"
-#include "Renderer/IndexBuffer.h"
-#include "Renderer/VertexArray.h"
-
-#include "Renderer/BufferLayout.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/RenderCommand.h"
 
 namespace UGame
 {
@@ -49,9 +43,13 @@ namespace UGame
 	{
 		while (running)
 		{
+			const float time = static_cast<float>(glfwGetTime()); // todo:: add platform independent solution
+			Timestep timestep = time - lastFrameTime;
+			lastFrameTime = time;
+			
 			for (Layer* layer : layerStack)
 			{
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			}
 
 			imGuiLayer->Begin();

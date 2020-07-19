@@ -61,34 +61,34 @@ public:
 		shader.reset(UGame::Shader::Create(vertexShaderSrc, fragmentShaderSrc));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(UGame::Timestep timestep) override
 	{
 		if (UGame::Input::IsKeyPressed(UG_KEY_LEFT))
 		{
-			cameraPosition.x -= cameraMoveSpeed;
+			cameraPosition.x += cameraMoveSpeed * timestep;
 		}
 		else if (UGame::Input::IsKeyPressed(UG_KEY_RIGHT))
 		{
-			cameraPosition.x += cameraMoveSpeed;
+			cameraPosition.x -= cameraMoveSpeed * timestep;
 		}
 
 		if (UGame::Input::IsKeyPressed(UG_KEY_UP))
 		{
-			cameraPosition.y -= cameraMoveSpeed;
+			cameraPosition.y -= cameraMoveSpeed * timestep;
 		}
 		else if (UGame::Input::IsKeyPressed(UG_KEY_DOWN))
 		{
-			cameraPosition.y += cameraMoveSpeed;
+			cameraPosition.y += cameraMoveSpeed * timestep;
 		}
 
 		if (UGame::Input::IsKeyPressed(UG_KEY_A))
 		{
-			cameraRotation -= cameraRotationSpeed;
+			cameraRotation -= cameraRotationSpeed * timestep;
 		}
 
 		if (UGame::Input::IsKeyPressed(UG_KEY_D))
 		{
-			cameraRotation += cameraRotationSpeed;
+			cameraRotation += cameraRotationSpeed * timestep;
 		}
 		
 		UGame::RenderCommand::SetClearColor({ 0.2, 0.2, 0.2, 0.2 });
@@ -125,7 +125,7 @@ private:
 	glm::vec3 cameraPosition{0.f};
 	float cameraRotation{ 0.f };
 	float cameraMoveSpeed{ 0.1f };
-	float cameraRotationSpeed{ 0.1f };
+	float cameraRotationSpeed{ 2.f };
 };
 
 class Sandbox : public UGame::Application

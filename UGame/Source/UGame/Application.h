@@ -2,9 +2,9 @@
 #include "Core.h"
 #include "LayerStack.h"
 #include <memory>
+
 #include "Window.h"
 #include "UGame/ImGui/ImGuiLayer.h"
-#include "Renderer/OrthographicCamera.h"
 
 namespace UGame
 {
@@ -42,6 +42,8 @@ namespace UGame
 		LayerStack layerStack;
 
 		static Application* instance;
+
+		float lastFrameTime{ 0.f };
 	};
 
 	// should be defined in the client
