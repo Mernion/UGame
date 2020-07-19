@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include <sstream>
 
 
 namespace UGame
@@ -12,7 +13,7 @@ namespace UGame
 
 		int GetCategoryFlags() const override { return static_cast<int>(EventCategory::Keyboard) | static_cast<int>(EventCategory::Input); }
 
-		inline int GetKeyCode() const { return keyCode; }
+		int GetKeyCode() const { return keyCode; }
 
 	protected:
 
@@ -30,7 +31,7 @@ namespace UGame
 		KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), repeatCount(repeatCount)
 		{}
 
-		inline int GetRepeatCount() const { return repeatCount; }
+		int GetRepeatCount() const { return repeatCount; }
 		
 		std::string ToString() const override
 		{

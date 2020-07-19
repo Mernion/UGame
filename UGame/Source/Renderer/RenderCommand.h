@@ -4,7 +4,7 @@
 
 namespace UGame
 {
-	class RenderCommand
+	class UGAME_API RenderCommand
 	{
 	public:
 

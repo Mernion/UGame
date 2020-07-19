@@ -71,7 +71,7 @@ namespace UGame
 		}
 	};
 
-	class BufferLayout
+	class UGAME_API BufferLayout
 	{
 	public:
 		BufferLayout() = default;

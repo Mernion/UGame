@@ -5,7 +5,7 @@
 
 namespace UGame
 {
-	class Shader
+	class UGAME_API Shader
 	{
 	public:
 

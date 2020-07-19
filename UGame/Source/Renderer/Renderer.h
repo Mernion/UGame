@@ -7,7 +7,7 @@ namespace UGame
 {
 	class OrthographicCamera;
 
-	class Renderer
+	class UGAME_API Renderer
 	{
 	public:
 		static void BeginScene(OrthographicCamera& camera);

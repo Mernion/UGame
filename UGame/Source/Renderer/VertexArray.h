@@ -9,7 +9,7 @@
 
 namespace UGame
 {
-	class VertexArray
+	class UGAME_API VertexArray
 	{
 	public:
 		static VertexArray* Create();

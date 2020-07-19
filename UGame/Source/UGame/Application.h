@@ -42,8 +42,6 @@ namespace UGame
 		LayerStack layerStack;
 
 		static Application* instance;
-
-		OrthographicCamera camera;
 	};
 
 	// should be defined in the client

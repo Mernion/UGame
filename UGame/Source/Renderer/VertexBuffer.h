@@ -3,7 +3,7 @@
 
 namespace UGame
 {
-	class VertexBuffer
+	class UGAME_API VertexBuffer
 	{
 	public:
 		static VertexBuffer* Create(float* data, size_t size);

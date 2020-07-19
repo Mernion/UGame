@@ -1,8 +1,9 @@
 #pragma once
+#include "UGame/Core.h"
 
 namespace UGame
 {
-	class IndexBuffer
+	class UGAME_API IndexBuffer
 	{
 	public:
 		static IndexBuffer* Create(unsigned int* data, size_t count);

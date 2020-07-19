@@ -4,7 +4,7 @@
 
 namespace UGame
 {
-	class OrthographicCamera
+	class UGAME_API OrthographicCamera
 	{
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
