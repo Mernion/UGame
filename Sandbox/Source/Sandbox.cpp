@@ -1,8 +1,7 @@
 #include "UGame.h"
 
-#include "imgui.h"
-
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public UGame::Layer
 {
@@ -54,11 +53,13 @@ public:
 
 			layout(location = 0) out vec4 color;
 
+			uniform vec4 u_Color;
+
 			in vec3 v_Position;
 			
 			void main()
 			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = u_Color;
 			}
 		)";
 
@@ -110,6 +111,7 @@ public:
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.f), pos) * scale;
+				shader->UploadUniformFloat4("u_Color", color);
 				UGame::Renderer::Submit(vertexArray, shader, transform);
 			}
 		}
@@ -119,9 +121,13 @@ public:
 		UGame::Renderer::EndScene();
 	}
 
-	void OnImGuiRender() override
+	//todo:: set context at OnAttach instead of render? this because of dll, globals are not shared across dll :(
+	void OnImGuiRender(ImGuiContext* const context) override
 	{
-		
+		ImGui::SetCurrentContext(context);
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(color));
+		ImGui::End();	
 	}
 
 	void OnEvent(UGame::Event& event) override
@@ -139,8 +145,10 @@ private:
 	UGame::OrthographicCamera camera;
 	glm::vec3 cameraPosition{0.f};
 	float cameraRotation{ 0.f };
-	float cameraMoveSpeed{ 0.1f };
-	float cameraRotationSpeed{ 2.f };
+	float cameraMoveSpeed{ 1.f };
+	float cameraRotationSpeed{ 15.f };
+
+	glm::vec4 color{ 0.f };
 };
 
 class Sandbox : public UGame::Application

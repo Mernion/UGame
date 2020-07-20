@@ -20,7 +20,7 @@ namespace UGame
 
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnImGuiRender() override;
+		void OnImGuiRender(ImGuiContext *const context) override;
 
 		void Begin();
 		void End();

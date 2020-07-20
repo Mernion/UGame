@@ -4,10 +4,7 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 #include "UGame/Application.h"
-#include "UGame/Events/Event.h"
-#include "UGame/Events/MouseEvent.h"
 #include "UGame/Events/ApplicationEvent.h"
-#include "UGame/Events/KeyEvent.h"
 
 #include "GLFW/glfw3.h" //tmp
 #include "glad/glad.h"
@@ -86,7 +83,7 @@ namespace UGame
 
 	}
 		
-	void ImGuiLayer::OnImGuiRender()
+	void ImGuiLayer::OnImGuiRender(ImGuiContext* const context)
 	{
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);

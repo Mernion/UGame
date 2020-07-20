@@ -1,5 +1,8 @@
 #include "Application.h"
 
+#include <imgui.h>
+#include <imgui_internal.h>
+
 #include "Core/Timestep.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
@@ -55,7 +58,7 @@ namespace UGame
 			imGuiLayer->Begin();
 			for (Layer* layer : layerStack)
 			{
-				layer->OnImGuiRender();
+				layer->OnImGuiRender(ImGui::GetCurrentContext());
 			}
 			imGuiLayer->End();
 

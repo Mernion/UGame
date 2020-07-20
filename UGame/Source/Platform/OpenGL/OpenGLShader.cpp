@@ -88,6 +88,13 @@ namespace UGame
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& values)
+	{
+		GLint location = glGetUniformLocation(programId, name.c_str());
+		UG_CORE_ASSERT(location != -1, "Uniform location is empty!");
+		glUniform4f(location, values.x, values.y, values.z, values.w);
+	}
+
 	
 	void OpenGLShader::Bind()
 	{
