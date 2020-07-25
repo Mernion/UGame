@@ -18,6 +18,7 @@
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/Texture.h"
+#include "Renderer/ShaderLibrary.h"
 
 #include "Core/Timestep.h"
 

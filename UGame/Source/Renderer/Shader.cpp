@@ -5,7 +5,7 @@
 
 namespace UGame
 {
-	Shader* Shader::Create(const std::string& filepath)
+	std::shared_ptr<Shader> Shader::Create(const std::string& filepath)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -14,7 +14,7 @@ namespace UGame
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLShader(filepath);
+			return std::make_shared<OpenGLShader>(filepath);
 			break;
 		}
 
@@ -22,7 +22,7 @@ namespace UGame
 		return nullptr;
 	}
 	
-	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
+	std::shared_ptr<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -31,7 +31,7 @@ namespace UGame
 			return nullptr;
 			break;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLShader(vertexSrc, fragmentSrc);
+			return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			break;
 		}
 

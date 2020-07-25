@@ -22,9 +22,17 @@ namespace UGame
 		std::string source  = ReadFile(filename);
 		auto shaderSource = PreProcess(source);
 		Compile(shaderSource);
+
+		// fixed path for now : assets / shaders / Texture.glsl
+		auto lastSlash = filename.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filename.rfind('.');
+		auto count = lastDot == std::string::npos ? filename.size() - lastSlash : lastDot - lastSlash;
+		name = filename.substr(lastSlash, count);
 	}
 	
-	OpenGLShader::OpenGLShader(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc)
+	OpenGLShader::OpenGLShader(const std::string name, const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc)
+		: name(name)
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexShaderSrc;
@@ -114,8 +122,9 @@ namespace UGame
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSrc)
 	{
 		programId = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSrc.size());
-		
+		UG_CORE_ASSERT(shaderSrc.size() <= 2, "Unsupported shader amount provided");
+		std::array<GLenum, 2> glShaderIDs;
+		int glShaderIdIndex = 0;
 		for (auto& kv : shaderSrc)
 		{
 			GLenum shaderType = kv.first;
@@ -144,7 +153,7 @@ namespace UGame
 			}
 
 			glAttachShader(programId, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIdIndex++] = shader;
 		}
 
 		glLinkProgram(programId);

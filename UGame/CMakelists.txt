@@ -28,6 +28,8 @@ set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/OrthographicCamera.cpp"
 	"Source/Renderer/Texture.h"
 	"Source/Renderer/Texture.cpp"
+	"Source/Renderer/ShaderLibrary.h"
+	"Source/Renderer/ShaderLibrary.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL

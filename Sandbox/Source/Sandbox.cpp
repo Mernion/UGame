@@ -30,8 +30,8 @@ public:
 		vertexArray->AddVertexBuffer(vertexBuffer);
 		vertexArray->SetIndexBuffer(indexBuffer);
 
-		shader.reset(UGame::Shader::Create("shaders/Color.glsl"));
-		textureShader.reset(UGame::Shader::Create("shaders/Texture.glsl"));
+		shader = UGame::Shader::Create("shaders/Color.glsl");
+		auto textureShader = shaderLibrary.Load("shaders/Texture.glsl");
 		
 		texture = UGame::Texture2D::Create("textures/Checkerboard.png");
 		logoTexture = UGame::Texture2D::Create("textures/ChernoLogo.png");
@@ -109,7 +109,7 @@ public:
 		}
 
 		texture->Bind();
-		UGame::Renderer::Submit(squareVA, textureShader);
+		UGame::Renderer::Submit(squareVA, shaderLibrary.Get("Texture"));
 		//logoTexture->Bind();
 		//UGame::Renderer::Submit(squareVA, textureShader);
 
@@ -133,7 +133,9 @@ public:
 	}
 
 private:
-	std::shared_ptr<UGame::Shader> shader, textureShader;
+	UGame::ShaderLibrary shaderLibrary;
+	
+	std::shared_ptr<UGame::Shader> shader;
 	
 	std::shared_ptr<UGame::VertexArray> vertexArray;
 	std::shared_ptr<UGame::VertexBuffer> vertexBuffer;
