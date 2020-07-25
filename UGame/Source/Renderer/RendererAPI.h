@@ -19,6 +19,8 @@ namespace UGame
 
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
+		virtual void Init() = 0;
+
 		static API GetAPI()  { return api; }
 		
 	private:

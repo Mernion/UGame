@@ -7,6 +7,7 @@ namespace UGame
 	{
 		 void SetClearColor(const glm::vec4& color) override;
 		 void Clear() override;
+		 void Init() override;
 
 		 void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
 

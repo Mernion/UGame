@@ -10,6 +10,7 @@ namespace UGame
 	public:
 
 		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
+		static Shader* Create(const std::string& filepath);
 
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
@@ -18,9 +19,8 @@ namespace UGame
 		virtual void UploadUniformFloat4(const std::string& name, const glm::vec4& values) = 0;
 		virtual void UploadUniformInt(const std::string& name, int value) = 0;
 
-		virtual ~Shader();
-		
-	protected:
-		Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		Shader() = default;
+		virtual ~Shader() = default;
+	
 	};
 }

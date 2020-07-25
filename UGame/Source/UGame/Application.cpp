@@ -10,6 +10,7 @@
 #include "Layer.h"
 #include "Input.h"
 #include "Log.h"
+#include "Renderer/Renderer.h"
 
 namespace UGame
 {
@@ -23,6 +24,8 @@ namespace UGame
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
 
+		Renderer::Init();
+		
 		imGuiLayer = new ImGuiLayer();
 		layerStack.PushOverlay(imGuiLayer);
 	}

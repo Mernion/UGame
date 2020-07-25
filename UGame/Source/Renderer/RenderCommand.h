@@ -18,7 +18,11 @@ namespace UGame
 			rendererAPI->Clear();
 		}
 
-		
+		static void Init()
+		{
+			rendererAPI->Init();
+		}
+
 		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
 		{
 			rendererAPI->DrawIndexed(vertexArray);
