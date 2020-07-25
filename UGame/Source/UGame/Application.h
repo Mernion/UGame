@@ -11,6 +11,7 @@ namespace UGame
 	class Layer;
 	class Event;
 	class WindowCloseEvent;
+	class WindowResizeEvent;
 
 	class UGAME_API Application
 	{
@@ -34,10 +35,12 @@ namespace UGame
 	private:
 
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 
 		std::unique_ptr<Window> window;
 		ImGuiLayer* imGuiLayer;
 		bool running = true;
+		bool minimized = false;
 
 		LayerStack layerStack;
 

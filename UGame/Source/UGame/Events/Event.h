@@ -57,6 +57,8 @@ namespace UGame
 
 		inline bool getHandled() const { return handled; }
 
+		virtual ~Event() = default;
+
 	protected:
 
 		bool handled = false;

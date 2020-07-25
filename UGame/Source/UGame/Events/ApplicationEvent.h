@@ -9,24 +9,24 @@ namespace UGame
 	{
 	public:
 		
-	EVENT_CLASS_TYPE(WindowResize)
+		EVENT_CLASS_TYPE(WindowResize)
 
-	WindowResizeEvent(unsigned int width, unsigned int height) : width(width), height(height) {}
+		WindowResizeEvent(unsigned int width, unsigned int height) : width(width), height(height) {}
 
-	inline unsigned int GetWidth() const { return width; }
-	inline unsigned int GetHeight() const { return height; }
+		unsigned int GetWidth() const { return width; }
+		unsigned int GetHeight() const { return height; }
 
-	std::string ToString() const override
-	{
-		std::stringstream ss;
-		ss << "WindowResizeEvent: " << width << " , " << height;
-		return ss.str();
-	}
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "WindowResizeEvent: " << width << " , " << height;
+			return ss.str();
+		}
 
-	int GetCategoryFlags() const override
-	{
-		return static_cast<int>(EventCategory::Application);
-	}
+		int GetCategoryFlags() const override
+		{
+			return static_cast<int>(EventCategory::Application);
+		}
 
 	private:
 		unsigned int width, height;

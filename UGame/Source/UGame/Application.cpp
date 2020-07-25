@@ -52,10 +52,13 @@ namespace UGame
 			const float time = static_cast<float>(glfwGetTime()); // todo:: add platform independent solution
 			Timestep timestep = time - lastFrameTime;
 			lastFrameTime = time;
-			
-			for (Layer* layer : layerStack)
+
+			if (!minimized)
 			{
-				layer->OnUpdate(timestep);
+				for (Layer* layer : layerStack)
+				{
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			imGuiLayer->Begin();
@@ -74,7 +77,8 @@ namespace UGame
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT(Application::OnWindowClose));
-
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT(Application::OnWindowResize));
+		
 		for (auto it = layerStack.end();it != layerStack.begin(); )
 		{
 			(*--it)->OnEvent(e);
@@ -83,6 +87,19 @@ namespace UGame
 				break;
 			}
 		}
+	}
+	
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			minimized = true;
+			return false;
+		}
+
+		minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		return false;
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
