@@ -17,6 +17,7 @@
 #include "Renderer/IndexBuffer.h"
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/OrthographicCamera.h"
+#include "Renderer/Texture.h"
 
 #include "Core/Timestep.h"
 

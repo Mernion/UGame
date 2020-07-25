@@ -95,7 +95,13 @@ namespace UGame
 		glUniform4f(location, values.x, values.y, values.z, values.w);
 	}
 
-	
+	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
+	{
+		GLint location = glGetUniformLocation(programId, name.c_str());
+		UG_CORE_ASSERT(location != -1, "Uniform location is empty!");
+		glUniform1i(location, value);
+	}
+
 	void OpenGLShader::Bind()
 	{
 		glUseProgram(programId);

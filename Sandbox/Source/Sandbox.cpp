@@ -87,17 +87,20 @@ public:
 
 			layout(location = 0) out vec4 color;
 
-			uniform vec4 u_Color;
+			uniform sampler2D u_Texture;
 
 			in vec2 v_TexCoord;
 			
 			void main()
 			{
-				color = vec4(v_TexCoord, 0.f, 1.f);
+				color = texture(u_Texture, v_TexCoord);
 			}
 		)";
 		textureShader.reset(UGame::Shader::Create(textureVertexShaderSrc, textureFragmentShaderSrc));
+		texture = UGame::Texture2D::Create("D:/Github/UGame/Sandbox/assets/textures/Checkerboard.png");
 
+		textureShader->Bind();
+		textureShader->UploadUniformInt("u_Texture", 0);
 	
 		float squareVertices[5 * 4] = {
 			-0.5f,	-0.5f,	0.0f, 0.f, 0.f,
@@ -168,6 +171,7 @@ public:
 			}
 		}
 
+		texture->Bind();
 		UGame::Renderer::Submit(squareVA, textureShader);
 
 		UGame::Renderer::EndScene();
@@ -198,6 +202,8 @@ private:
 	std::shared_ptr<UGame::VertexArray> squareVA;
 	std::shared_ptr<UGame::VertexBuffer> squareVB;
 	std::shared_ptr<UGame::IndexBuffer> squareIB;
+
+	std::shared_ptr<UGame::Texture2D> texture;
 	
 	UGame::OrthographicCamera camera;
 	glm::vec3 cameraPosition{0.f};

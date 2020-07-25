@@ -26,6 +26,8 @@ set(UGAME_SOURCE_RENDERER
 	"Source/Renderer/RenderCommand.cpp"
 	"Source/Renderer/OrthographicCamera.h"
 	"Source/Renderer/OrthographicCamera.cpp"
+	"Source/Renderer/Texture.h"
+	"Source/Renderer/Texture.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_OPENGL
@@ -43,6 +45,8 @@ set(UGAME_SOURCE_PLATFORM_OPENGL
 	"Source/Platform/OpenGL/OpenGLBufferLayout.cpp"
 	"Source/Platform/OpenGL/OpenGLRendererAPI.h"
 	"Source/Platform/OpenGL/OpenGLRendererAPI.cpp"
+	"Source/Platform/OpenGL/OpenGLTexture.h"
+	"Source/Platform/OpenGL/OpenGLTexture.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_WINDOWS
@@ -89,6 +93,11 @@ set(UGAME_SOURCE_CORE
 	"Source/Core/Timestep.h"
 )
 
+set(UGAME_SOURCE_THIRDPARTY
+	"ThirdParty/stb/stb_image.h"
+	"ThirdParty/stb/stb_image.cpp"
+)
+
 
 set(UGAME_SRC 	${UGAME_SOURCE} 
 		${UGAME_ROOT} 
@@ -98,6 +107,7 @@ set(UGAME_SRC 	${UGAME_SOURCE}
 		${UGAME_SOURCE_RENDERER}
 		${UGAME_SOURCE_IMGUI}
 		${UGAME_SOURCE_CORE}
+		${UGAME_SOURCE_THIRDPARTY}
 )
 
 add_library(UGame SHARED ${UGAME_SRC})
@@ -125,6 +135,7 @@ source_group("Source Files/Platform/OpenGL" FILES ${UGAME_SOURCE_PLATFORM_OPENGL
 source_group("Source Files/Renderer" FILES ${UGAME_SOURCE_RENDERER})
 source_group("Source Files/ImGui" FILES ${UGAME_SOURCE_IMGUI})
 source_group("Source Files/Core" FILES ${UGAME_SOURCE_CORE})
+source_group("Source Files/ThirdParty" FILES ${UGAME_SOURCE_THIRDPARTY})
 
 if (WIN32)
       target_compile_definitions(UGame PRIVATE UG_BUILD_DLL=1 UG_PLATFORM_WINDOWS=1) 
