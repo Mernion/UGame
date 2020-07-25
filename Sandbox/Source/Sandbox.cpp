@@ -97,7 +97,7 @@ public:
 			}
 		)";
 		textureShader.reset(UGame::Shader::Create(textureVertexShaderSrc, textureFragmentShaderSrc));
-		texture = UGame::Texture2D::Create("D:/Github/UGame/Sandbox/assets/textures/Checkerboard.png");
+		texture = UGame::Texture2D::Create("textures/Checkerboard.png");
 
 		textureShader->Bind();
 		textureShader->UploadUniformInt("u_Texture", 0);
