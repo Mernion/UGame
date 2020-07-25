@@ -62,8 +62,60 @@ public:
 				color = u_Color;
 			}
 		)";
-
 		shader.reset(UGame::Shader::Create(vertexShaderSrc, fragmentShaderSrc));
+
+		const std::string textureVertexShaderSrc = R"(
+			#version 410 core
+		
+			layout (location = 0) in vec3 a_Position;
+			layout (location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+		)";
+
+		const std::string textureFragmentShaderSrc = R"(
+			#version 410 core
+
+			layout(location = 0) out vec4 color;
+
+			uniform vec4 u_Color;
+
+			in vec2 v_TexCoord;
+			
+			void main()
+			{
+				color = vec4(v_TexCoord, 0.f, 1.f);
+			}
+		)";
+		textureShader.reset(UGame::Shader::Create(textureVertexShaderSrc, textureFragmentShaderSrc));
+
+	
+		float squareVertices[5 * 4] = {
+			-0.5f,	-0.5f,	0.0f, 0.f, 0.f,
+			 0.5f,	-0.5f,	0.0f, 1.f, 0.f,
+			 0.5f,	 0.5f,	0.0f, 1.f, 1.f,
+			-0.5f,	 0.5f,	0.f,  0.f, 1.f
+		};
+		squareVB.reset(UGame::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB->SetLayout({
+			{ UGame::ShaderDataType::Float3, "a_Position"},
+			{ UGame::ShaderDataType::Float2, "a_TexCoord"}
+		});
+		squareVA.reset(UGame::VertexArray::Create());
+		squareVA->AddVertexBuffer(squareVB);
+
+		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		squareIB.reset(UGame::IndexBuffer::Create(squareIndices, sizeof(squareIndices)));
+		squareVA->SetIndexBuffer(squareIB);
 	}
 
 	void OnUpdate(UGame::Timestep timestep) override
@@ -116,7 +168,7 @@ public:
 			}
 		}
 
-		//UGame::Renderer::Submit(vertexArray, shader);
+		UGame::Renderer::Submit(squareVA, textureShader);
 
 		UGame::Renderer::EndScene();
 	}
@@ -137,11 +189,16 @@ public:
 	}
 
 private:
-	std::shared_ptr<UGame::Shader> shader;
+	std::shared_ptr<UGame::Shader> shader, textureShader;
+	
 	std::shared_ptr<UGame::VertexArray> vertexArray;
 	std::shared_ptr<UGame::VertexBuffer> vertexBuffer;
 	std::shared_ptr<UGame::IndexBuffer> indexBuffer;
 
+	std::shared_ptr<UGame::VertexArray> squareVA;
+	std::shared_ptr<UGame::VertexBuffer> squareVB;
+	std::shared_ptr<UGame::IndexBuffer> squareIB;
+	
 	UGame::OrthographicCamera camera;
 	glm::vec3 cameraPosition{0.f};
 	float cameraRotation{ 0.f };
