@@ -14,8 +14,8 @@ namespace UGame
 
 		MouseMovedEvent(float mouseX, float mouseY) : mouseX(mouseX), mouseY(mouseY) {}
 
-		inline float GetX() const { return mouseX; }
-		inline float GetY() const { return mouseY; }
+		float GetX() const { return mouseX; }
+		float GetY() const { return mouseY; }
 
 		std::string ToString() const override
 		{

@@ -7,7 +7,7 @@ class ExampleLayer : public UGame::Layer
 {
 public:
 
-	ExampleLayer() : Layer("Example"), camera(-1.f, 1.f, -1.f, 1.f)
+	ExampleLayer() : Layer("Example"), camera(1.666, true)
 	{
 		float vertices[] = {
 			-0.5f, -0.5f, 0.f,
@@ -60,41 +60,12 @@ public:
 
 	void OnUpdate(UGame::Timestep timestep) override
 	{
-		if (UGame::Input::IsKeyPressed(UG_KEY_LEFT))
-		{
-			cameraPosition.x += cameraMoveSpeed * timestep;
-		}
-		else if (UGame::Input::IsKeyPressed(UG_KEY_RIGHT))
-		{
-			cameraPosition.x -= cameraMoveSpeed * timestep;
-		}
-
-		if (UGame::Input::IsKeyPressed(UG_KEY_UP))
-		{
-			cameraPosition.y -= cameraMoveSpeed * timestep;
-		}
-		else if (UGame::Input::IsKeyPressed(UG_KEY_DOWN))
-		{
-			cameraPosition.y += cameraMoveSpeed * timestep;
-		}
-
-		if (UGame::Input::IsKeyPressed(UG_KEY_A))
-		{
-			cameraRotation -= cameraRotationSpeed * timestep;
-		}
-
-		if (UGame::Input::IsKeyPressed(UG_KEY_D))
-		{
-			cameraRotation += cameraRotationSpeed * timestep;
-		}
+		camera.OnUpdate(timestep);
 		
 		UGame::RenderCommand::SetClearColor({ 0.2, 0.2, 0.2, 0.2 });
 		UGame::RenderCommand::Clear();
 
-		camera.SetPosition(cameraPosition);
-		camera.SetRotation(cameraRotation);
-		
-		UGame::Renderer::BeginScene(camera);
+		UGame::Renderer::BeginScene(camera.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
 		for (int y=0; y < 20; y++)
@@ -128,8 +99,7 @@ public:
 
 	void OnEvent(UGame::Event& event) override
 	{
-		UGame::EventDispatcher dispatcher(event);
-		//dispatcher.Dispatch<UGame::KeyPressedEvent>(BIND_EVENT(ExampleLayer::OnKeyPressedEvent));
+		camera.OnEvent(event);
 	}
 
 private:
@@ -147,12 +117,7 @@ private:
 
 	std::shared_ptr<UGame::Texture2D> texture, logoTexture;
 	
-	UGame::OrthographicCamera camera;
-	glm::vec3 cameraPosition{0.f};
-	float cameraRotation{ 0.f };
-	float cameraMoveSpeed{ 1.f };
-	float cameraRotationSpeed{ 15.f };
-
+	UGame::OrthographicCameraController camera;
 	glm::vec4 color{ 0.f };
 };
 

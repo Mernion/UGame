@@ -9,6 +9,8 @@ namespace UGame
 	public:
 		OrthographicCamera(float left, float right, float bottom, float top);
 
+		void SetProjection(float left, float right, float bottom, float top);
+
 		void SetPosition(const glm::vec3 position)
 		{
 			this->position = position;
@@ -21,6 +23,7 @@ namespace UGame
 			RecalculateViewMatrix();
 		}
 
+		
 		const glm::mat4& GetProjectionMatrix() const { return projectionMatrix; }
 		const glm::mat4& GetViewMatrix() const { return viewMatrix; }
 		const glm::mat4& GetViewProjectionMatrix() const { return viewProjectionMatrix; }

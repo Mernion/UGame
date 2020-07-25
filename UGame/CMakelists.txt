@@ -89,6 +89,8 @@ set(UGAME_SOURCE
 	"Source/UGame/LayerStack.cpp"
 	"Source/UGame/LayerStack.h"
 	"Source/UGame/Input.h"
+	"Source/UGame/OrthographicCameraController.h"
+	"Source/UGame/OrthographicCameraController.cpp"
 )
 
 set(UGAME_SOURCE_CORE
