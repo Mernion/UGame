@@ -83,6 +83,7 @@ set(UGAME_SOURCE
 	"Source/UGame/EntryPoint.h"
 	"Source/UGame/Log.cpp"
 	"Source/UGame/Log.h"
+	"Source/UGame/Window.cpp"
 	"Source/UGame/Window.h"
 	"Source/UGame/Layer.h"
 	"Source/UGame/Layer.cpp"
