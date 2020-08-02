@@ -1,15 +1,19 @@
 #include "WindowsWindow.h"
+
+#include <windowsx.h>
+
 #include "UGame/Events/ApplicationEvent.h"
 #include "UGame/Events/KeyEvent.h"
 #include "UGame/Events/MouseEvent.h"
 #include "UGame/Log.h"
+#include "UGame/Core.h"
 
 namespace UGame
 {
 	static WindowData* GetAppState(HWND hwnd)
 	{
-		LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		WindowData* props = reinterpret_cast<WindowData*>(ptr);
+		const LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		const auto props = reinterpret_cast<WindowData*>(ptr);
 		return props;
 	}
 	
@@ -18,7 +22,7 @@ namespace UGame
 		const WindowData* data;
 		if (uMsg == WM_CREATE)
 		{
-			CREATESTRUCT *pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+			CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
 			data = reinterpret_cast<WindowData*>(pCreate->lpCreateParams);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 		}
@@ -33,23 +37,72 @@ namespace UGame
 			{
 				WindowCloseEvent event;
 				data->eventCallback(event);
+				break;
 			}
 		case WM_KEYDOWN:
 			{
 				KeyPressedEvent event(wParam, 0);
 				data->eventCallback(event);
+				break;
 			}
 		case WM_KEYUP:
 			{
 				KeyReleasedEvent event(wParam);
 				data->eventCallback(event);
+				break;
 			}
-			
-			case WM_DESTROY:
+		case WM_MOUSEMOVE:
+			{
+				const int xPos = GET_X_LPARAM(lParam);
+				const int yPos = GET_Y_LPARAM(lParam);
+				MouseMovedEvent event(xPos, yPos);
+				data->eventCallback(event);
+				break;
+			}
+		case WM_LBUTTONDOWN:
+			{
+				MouseButtonPressedEvent event(0);
+				data->eventCallback(event);
+				break;
+			}
+		case WM_LBUTTONUP:
+			{
+				MouseButtonReleasedEvent event(0);
+				data->eventCallback(event);
+				break;
+			}
+		case WM_RBUTTONDOWN:
+			{
+				MouseButtonPressedEvent event(1);
+				data->eventCallback(event);
+				break;
+			}
+		case WM_RBUTTONUP:
+			{	
+				MouseButtonReleasedEvent event(1);
+				data->eventCallback(event);
+				break;
+			}
+		case WM_MOUSEHWHEEL:
+			{
+				const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+				MouseScrolledEvent event(delta, 0);
+				break;
+			}
+		case WM_DESTROY:
+			{
 				PostQuitMessage(0);
 				return 0;
-
-			case WM_PAINT:
+			}
+		case WM_SIZE:
+		{
+			UINT width = LOWORD(lParam);
+			UINT height = HIWORD(lParam);
+			WindowResizeEvent event(width, height);
+			data->eventCallback(event);
+			break;
+		}
+		case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(hwnd, &ps);
@@ -111,16 +164,6 @@ namespace UGame
 
 		SetVSync(true);
 
-		//glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-		//		data.props.height = height;
-		//		data.props.width = width;
-
-		//		WindowResizeEvent event(width, height);
-		//		data.eventCallback(event);
-		//	});
-
 		//glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		//	{
 		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -141,48 +184,21 @@ namespace UGame
 		//		KeyTypedEvent event(character);
 		//		data.eventCallback(event);
 		//	});
-
-		//glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-		//		switch (action)
-		//		{
-		//		case GLFW_PRESS:
-		//		{
-		//			MouseButtonPressedEvent event(button);
-		//			data.eventCallback(event);
-		//			break;
-		//		}
-		//		case GLFW_RELEASE:
-		//		{
-		//			MouseButtonReleasedEvent event(button);
-		//			data.eventCallback(event);
-		//			break;
-		//		}
-		//		}
-		//	});
-
-		//glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-		//		MouseScrolledEvent event((float)xOffset, (float)yOffset);
-		//		data.eventCallback(event);
-		//	});
-
-		//glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-		//		MouseMovedEvent event((float)xPos, (float)yPos);
-		//		data.eventCallback(event);
-		//	});
 	}
 
 	void WindowsWindow::Shutdown()
 	{
-		
+		//HMENU hMenu;
+		//hMenu = GetMenu(hWnd);
+		//if (hMenu != NULL)
+		//{
+		//	DestroyMenu(hMenu);
+		//}
+		//DestroyWindow(hWnd);
+		//UnregisterClass(
+		//	m_windowClassName.c_str(),
+		//	m_hInstance
+		//);
 	}
 
 	void WindowsWindow::OnUpdate()

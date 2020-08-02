@@ -26,8 +26,8 @@ namespace UGame
 
 		//Renderer::Init();
 		
-		//imGuiLayer = new ImGuiLayer();
-		//layerStack.PushOverlay(imGuiLayer);
+		imGuiLayer = ImGuiLayer::Create();
+		layerStack.PushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()

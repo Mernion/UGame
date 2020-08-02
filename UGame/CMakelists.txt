@@ -72,10 +72,24 @@ set(UGAME_SOURCE_EVENTS
 set(UGAME_SOURCE_IMGUI
 	"Source/UGame/ImGui/ImGuiLayer.cpp"
 	"Source/UGame/ImGui/ImGuiLayer.h"
-	"Source/UGame/ImGui/imgui_impl_opengl3.h"
-	"Source/UGame/ImGui/imgui_impl_glfw.h"
-	"Source/UGame/ImGui/imgui_impl_opengl3.cpp"
-	"Source/UGame/ImGui/imgui_impl_glfw.cpp"
+)
+
+set(UGAME_SOURCE_IMGUI_OPENGL
+	"Source/UGame/ImGui/OpenGL/imgui_impl_opengl3.h"
+	"Source/UGame/ImGui/OpenGL/imgui_impl_opengl3.cpp"
+	"Source/UGame/ImGui/OpenGL/imgui_impl_glfw.cpp"
+	"Source/UGame/ImGui/OpenGL/imgui_impl_glfw.h"
+	"Source/UGame/ImGui/OpenGL/OpenGLImGuiLayer.h"
+	"Source/UGame/ImGui/OpenGL/OpenGLImGuiLayer.cpp"
+)
+
+set(UGAME_SOURCE_IMGUI_DIRECTX
+	"Source/UGame/ImGui/DirectX/imgui_impl_dx11.h"
+	"Source/UGame/ImGui/DirectX/imgui_impl_dx11.cpp"
+	"Source/UGame/ImGui/DirectX/imgui_impl_win32.cpp"
+	"Source/UGame/ImGui/DirectX/imgui_impl_win32.h"
+	"Source/UGame/ImGui/DirectX/DirectXImGuiLayer.h"
+	"Source/UGame/ImGui/DirectX/DirectXImGuiLayer.cpp"
 )
 
 set(UGAME_SOURCE
@@ -113,6 +127,8 @@ set(UGAME_SRC 	${UGAME_SOURCE}
 		${UGAME_SOURCE_PLATFORM_WINDOWS}
 		${UGAME_SOURCE_RENDERER}
 		${UGAME_SOURCE_IMGUI}
+		${UGAME_SOURCE_IMGUI_OPENGL}
+		${UGAME_SOURCE_IMGUI_DIRECTX}
 		${UGAME_SOURCE_CORE}
 		${UGAME_SOURCE_THIRDPARTY}
 )
@@ -143,6 +159,8 @@ source_group("Source Files/Renderer" FILES ${UGAME_SOURCE_RENDERER})
 source_group("Source Files/ImGui" FILES ${UGAME_SOURCE_IMGUI})
 source_group("Source Files/Core" FILES ${UGAME_SOURCE_CORE})
 source_group("Source Files/ThirdParty" FILES ${UGAME_SOURCE_THIRDPARTY})
+source_group("Source Files/ImGui/OpenGL" FILES ${UGAME_SOURCE_IMGUI_OPENGL})
+source_group("Source Files/ImGui/DirectX" FILES ${UGAME_SOURCE_IMGUI_DIRECTX})
 
 if (WIN32)
       target_compile_definitions(UGame PRIVATE UG_BUILD_DLL=1 UG_PLATFORM_WINDOWS=1) 
