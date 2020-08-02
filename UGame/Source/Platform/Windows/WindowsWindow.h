@@ -6,6 +6,14 @@ struct GLFWwindow;
 
 namespace UGame
 {
+	struct WindowData
+	{
+		WindowProps props;
+		bool VSync;
+
+		Window::EventCallbackFn eventCallback;
+	};
+	
 	class WindowsWindow : public Window
 	{
 	public:
@@ -15,12 +23,12 @@ namespace UGame
 
 		void OnUpdate() override;
 
-		int GetWidth() const override { return data.props.width; }
-		int GetHeight() const override { return data.props.height; }
+		int GetWidth() const override { return windowData.props.width; }
+		int GetHeight() const override { return windowData.props.height; }
 
 		void SetEventCallback(const EventCallbackFn& callback) override
 		{
-			data.eventCallback = callback;
+			windowData.eventCallback = callback;
 		}
 
 		void SetVSync(bool enabled) override;
@@ -30,20 +38,13 @@ namespace UGame
 
 	private:
 
+		WindowData windowData;
+
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
 		HINSTANCE hInstance;
 		GraphicsContext* graphicsContext;
-
-		struct WindowData
-		{
-			WindowProps props;
-			bool VSync;
-
-			EventCallbackFn eventCallback;
-		} data;
-
 	};
 }
 

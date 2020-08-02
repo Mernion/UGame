@@ -22,7 +22,7 @@ namespace UGame
 		instance = this;
 
 		window = std::unique_ptr<Window>(Window::Create());
-		//window->SetEventCallback(BIND_EVENT(Application::OnEvent));
+		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
 
 		//Renderer::Init();
 		
@@ -49,6 +49,8 @@ namespace UGame
 	{
 		while (running)
 		{
+			window->OnUpdate();
+			
 			//const float time = static_cast<float>(glfwGetTime()); // todo:: add platform independent solution
 			//Timestep timestep = time - lastFrameTime;
 			//lastFrameTime = time;

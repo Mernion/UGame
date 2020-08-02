@@ -3,32 +3,64 @@
 #include "UGame/Events/KeyEvent.h"
 #include "UGame/Events/MouseEvent.h"
 #include "UGame/Log.h"
-#include "Platform/OpenGL/OpenGLContext.h"
-#include "GLFW/glfw3.h"
 
 namespace UGame
 {
+	static WindowData* GetAppState(HWND hwnd)
+	{
+		LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		WindowData* props = reinterpret_cast<WindowData*>(ptr);
+		return props;
+	}
+	
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
+		const WindowData* data;
+		if (uMsg == WM_CREATE)
+		{
+			CREATESTRUCT *pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+			data = reinterpret_cast<WindowData*>(pCreate->lpCreateParams);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+		}
+		else
+		{
+			data = GetAppState(hwnd);
+		}
+		
 		switch (uMsg)
 		{
-		case WM_DESTROY:
-			PostQuitMessage(0);
+		case WM_CLOSE:
+			{
+				WindowCloseEvent event;
+				data->eventCallback(event);
+			}
+		case WM_KEYDOWN:
+			{
+				KeyPressedEvent event(wParam, 0);
+				data->eventCallback(event);
+			}
+		case WM_KEYUP:
+			{
+				KeyReleasedEvent event(wParam);
+				data->eventCallback(event);
+			}
+			
+			case WM_DESTROY:
+				PostQuitMessage(0);
+				return 0;
+
+			case WM_PAINT:
+			{
+				PAINTSTRUCT ps;
+				HDC hdc = BeginPaint(hwnd, &ps);
+				FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+				EndPaint(hwnd, &ps);
+			}
 			return 0;
-
-		case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwnd, &ps);
-
-
-			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-
-			EndPaint(hwnd, &ps);
 		}
-		return 0;
 
-		}
+		UG_CORE_INFO("Window event {0}", uMsg);
+		
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 	
@@ -44,34 +76,35 @@ namespace UGame
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
-		data.props = props;
+		windowData.props = props;
 
 		UG_CORE_INFO("Creating window {0} ({1}, {2])", props.title, props.width, props.height);
 
 		if (hInstance == NULL)
-			hInstance = (HINSTANCE)GetModuleHandle(NULL);
+			hInstance = static_cast<HINSTANCE>(GetModuleHandle(NULL));
 
 		// Register the windows class
-		WNDCLASSA wc{};
+		WNDCLASS wc{};
 		wc.lpfnWndProc = WindowProc;
 		wc.hInstance = hInstance;
-		wc.lpszClassName = props.title.c_str();
+		std::wstring wTitle = std::wstring(props.title.begin(), props.title.end());
+		wc.lpszClassName = wTitle.c_str();
 
-		RegisterClassA(&wc);
+		RegisterClass(&wc);
 
-		HWND hwnd = CreateWindowExA(
-			0,                              // Optional window styles.
-			props.title.c_str(),					// Window class
-			"Main",                        // Window text
-			WS_OVERLAPPEDWINDOW,            // Window style
+		HWND hwnd = CreateWindowEx(
+			0,											// Optional window styles.
+		wTitle.c_str(),							// Window class
+		L"Main",								// Window text
+			WS_OVERLAPPEDWINDOW,					// Window style
 
 			// Size and position
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 
-			NULL,       // Parent window    
-			NULL,       // Menu
-			hInstance,  // Instance handle
-			NULL        // Additional application data
+		NULL,									// Parent window    
+			NULL,									// Menu
+			hInstance,									// Instance handle
+			&windowData									// Additional application data
 		);
 
 		ShowWindow(hwnd, 10);
@@ -88,31 +121,10 @@ namespace UGame
 		//		data.eventCallback(event);
 		//	});
 
-		//glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-		//		WindowCloseEvent event;
-		//		data.eventCallback(event);
-		//	});
-
 		//glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		//	{
 		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-		//		switch (action)
-		//		{
-		//		case GLFW_PRESS:
-		//		{
-		//			KeyPressedEvent event(key, 0);
-		//			data.eventCallback(event);
-		//			break;
-		//		}
-		//		case GLFW_RELEASE:
-		//		{
-		//			KeyReleasedEvent event(key);
-		//			data.eventCallback(event);
-		//			break;
-		//		}
 		//		case GLFW_REPEAT:
 		//		{
 		//			KeyPressedEvent event(key, 1);
@@ -175,8 +187,8 @@ namespace UGame
 
 	void WindowsWindow::OnUpdate()
 	{
-		MSG msg = { };
-		if (GetMessage(&msg, NULL, 0, 0))
+		MSG msg{};
+		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE) != 0)
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -185,11 +197,11 @@ namespace UGame
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
-		data.VSync = enabled;
+		windowData.VSync = enabled;
 	}
 
 	bool WindowsWindow::IsVSync() const
 	{
-		return data.VSync;
+		return windowData.VSync;
 	}
 }
