@@ -126,7 +126,7 @@ class Sandbox : public UGame::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
 	}
 
 	~Sandbox()

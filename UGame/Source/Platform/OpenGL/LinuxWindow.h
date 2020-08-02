@@ -6,19 +6,19 @@ struct GLFWwindow;
 
 namespace UGame
 {
-	class WindowsWindow : public Window
+	class LinuxWindow : public Window
 	{
 	public:
 		
-		WindowsWindow(const WindowProps& Window);
-		virtual ~WindowsWindow();
+		LinuxWindow(const WindowProps& Window);
+		virtual ~LinuxWindow();
 
 		void OnUpdate() override;
 
 		int GetWidth() const override { return data.props.width; }
 		int GetHeight() const override { return data.props.height; }
 
-		void SetEventCallback(const EventCallbackFn& callback) override
+		inline void SetEventCallback(const EventCallbackFn& callback) override
 		{
 			data.eventCallback = callback;
 		}
@@ -26,14 +26,14 @@ namespace UGame
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 		
-		void* GetNativeWindow() const override { return hInstance; }
+		void* GetNativeWindow() const override { return window; }
 
 	private:
 
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
-		HINSTANCE hInstance;
+		GLFWwindow* window;
 		GraphicsContext* graphicsContext;
 
 		struct WindowData

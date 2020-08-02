@@ -8,13 +8,30 @@
 
 namespace UGame
 {
-	static bool GLFWInitialized{ false };
-
-	static void GLFWErrorCallback(int error, const char* description)
+	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		UG_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
-	}
+		switch (uMsg)
+		{
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			return 0;
 
+		case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
+
+
+			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+
+			EndPaint(hwnd, &ps);
+		}
+		return 0;
+
+		}
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+	
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
 		Init(props);
@@ -31,130 +48,143 @@ namespace UGame
 
 		UG_CORE_INFO("Creating window {0} ({1}, {2])", props.title, props.width, props.height);
 
-		if (!GLFWInitialized)
-		{
-			int success = glfwInit();
-			UG_CORE_ASSERT(success, "Could not intiialize GLFW");
-			
-			glfwSetErrorCallback(GLFWErrorCallback);
+		if (hInstance == NULL)
+			hInstance = (HINSTANCE)GetModuleHandle(NULL);
 
-			GLFWInitialized = true;
-		}
+		// Register the windows class
+		WNDCLASSA wc{};
+		wc.lpfnWndProc = WindowProc;
+		wc.hInstance = hInstance;
+		wc.lpszClassName = props.title.c_str();
 
-		window = glfwCreateWindow(props.width,
-			props.height,
-			props.title.c_str(), nullptr, nullptr);
+		RegisterClassA(&wc);
 
-		graphicsContext = static_cast<GraphicsContext*>(new OpenGLContext(window));
-		graphicsContext->Init();
+		HWND hwnd = CreateWindowExA(
+			0,                              // Optional window styles.
+			props.title.c_str(),					// Window class
+			"Main",                        // Window text
+			WS_OVERLAPPEDWINDOW,            // Window style
 
-		glfwSetWindowUserPointer(window, &data);
+			// Size and position
+			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+
+			NULL,       // Parent window    
+			NULL,       // Menu
+			hInstance,  // Instance handle
+			NULL        // Additional application data
+		);
+
+		ShowWindow(hwnd, 10);
+
 		SetVSync(true);
 
-		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-				data.props.height = height;
-				data.props.width = width;
+		//glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//		data.props.height = height;
+		//		data.props.width = width;
 
-				WindowResizeEvent event(width, height);
-				data.eventCallback(event);
-			});
+		//		WindowResizeEvent event(width, height);
+		//		data.eventCallback(event);
+		//	});
 
-		glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-				WindowCloseEvent event;
-				data.eventCallback(event);
-			});
+		//glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//		WindowCloseEvent event;
+		//		data.eventCallback(event);
+		//	});
 
-		glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-				switch (action)
-				{
-				case GLFW_PRESS:
-				{
-					KeyPressedEvent event(key, 0);
-					data.eventCallback(event);
-					break;
-				}
-				case GLFW_RELEASE:
-				{
-					KeyReleasedEvent event(key);
-					data.eventCallback(event);
-					break;
-				}
-				case GLFW_REPEAT:
-				{
-					KeyPressedEvent event(key, 1);
-					data.eventCallback(event);
-					break;
-				}
-				}
-			});
+		//		switch (action)
+		//		{
+		//		case GLFW_PRESS:
+		//		{
+		//			KeyPressedEvent event(key, 0);
+		//			data.eventCallback(event);
+		//			break;
+		//		}
+		//		case GLFW_RELEASE:
+		//		{
+		//			KeyReleasedEvent event(key);
+		//			data.eventCallback(event);
+		//			break;
+		//		}
+		//		case GLFW_REPEAT:
+		//		{
+		//			KeyPressedEvent event(key, 1);
+		//			data.eventCallback(event);
+		//			break;
+		//		}
+		//		}
+		//	});
 
-		glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int character)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			
-				KeyTypedEvent event(character);
-				data.eventCallback(event);
-			});
+		//glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int character)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//	
+		//		KeyTypedEvent event(character);
+		//		data.eventCallback(event);
+		//	});
 
-		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-				switch (action)
-				{
-				case GLFW_PRESS:
-				{
-					MouseButtonPressedEvent event(button);
-					data.eventCallback(event);
-					break;
-				}
-				case GLFW_RELEASE:
-				{
-					MouseButtonReleasedEvent event(button);
-					data.eventCallback(event);
-					break;
-				}
-				}
-			});
+		//		switch (action)
+		//		{
+		//		case GLFW_PRESS:
+		//		{
+		//			MouseButtonPressedEvent event(button);
+		//			data.eventCallback(event);
+		//			break;
+		//		}
+		//		case GLFW_RELEASE:
+		//		{
+		//			MouseButtonReleasedEvent event(button);
+		//			data.eventCallback(event);
+		//			break;
+		//		}
+		//		}
+		//	});
 
-		glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-				MouseScrolledEvent event((float)xOffset, (float)yOffset);
-				data.eventCallback(event);
-			});
+		//		MouseScrolledEvent event((float)xOffset, (float)yOffset);
+		//		data.eventCallback(event);
+		//	});
 
-		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+		//glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
+		//	{
+		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-				MouseMovedEvent event((float)xPos, (float)yPos);
-				data.eventCallback(event);
-			});
+		//		MouseMovedEvent event((float)xPos, (float)yPos);
+		//		data.eventCallback(event);
+		//	});
 	}
 
 	void WindowsWindow::Shutdown()
 	{
-		glfwDestroyWindow(window);
+		
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
-		glfwPollEvents();
-		graphicsContext->SwapBuffers();
+		MSG msg = { };
+		if (GetMessage(&msg, NULL, 0, 0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
-		enabled ? glfwSwapInterval(1) : glfwSwapInterval(0);
 		data.VSync = enabled;
 	}
 

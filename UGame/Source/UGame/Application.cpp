@@ -22,12 +22,12 @@ namespace UGame
 		instance = this;
 
 		window = std::unique_ptr<Window>(Window::Create());
-		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
+		//window->SetEventCallback(BIND_EVENT(Application::OnEvent));
 
-		Renderer::Init();
+		//Renderer::Init();
 		
-		imGuiLayer = new ImGuiLayer();
-		layerStack.PushOverlay(imGuiLayer);
+		//imGuiLayer = new ImGuiLayer();
+		//layerStack.PushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()
@@ -49,30 +49,29 @@ namespace UGame
 	{
 		while (running)
 		{
-			const float time = static_cast<float>(glfwGetTime()); // todo:: add platform independent solution
-			Timestep timestep = time - lastFrameTime;
-			lastFrameTime = time;
+			//const float time = static_cast<float>(glfwGetTime()); // todo:: add platform independent solution
+			//Timestep timestep = time - lastFrameTime;
+			//lastFrameTime = time;
 
-			if (!minimized)
-			{
-				for (Layer* layer : layerStack)
-				{
-					layer->OnUpdate(timestep);
-				}
-			}
+			//if (!minimized)
+			//{
+			//	for (Layer* layer : layerStack)
+			//	{
+			//		layer->OnUpdate(timestep);
+			//	}
+			//}
 
-			imGuiLayer->Begin();
-			for (Layer* layer : layerStack)
-			{
-				layer->OnImGuiRender(ImGui::GetCurrentContext());
-			}
-			imGuiLayer->End();
+			//imGuiLayer->Begin();
+			//for (Layer* layer : layerStack)
+			//{
+			//	layer->OnImGuiRender(ImGui::GetCurrentContext());
+			//}
+			//imGuiLayer->End();
 
-			window->OnUpdate();
+			//window->OnUpdate();
 		}
-
-
 	}
+	
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
