@@ -36,11 +36,13 @@ namespace UGame
 		
 		void* GetNativeWindow() const override { return hInstance; }
 
+		virtual void Init(const WindowProps& props);
+
+
 	private:
 
 		WindowData windowData;
 
-		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
 		HINSTANCE hInstance;

@@ -10,6 +10,7 @@
 #include "Layer.h"
 #include "Input.h"
 #include "Log.h"
+#include "Platform/Windows/WindowsWindow.h"
 #include "Renderer/Renderer.h"
 
 namespace UGame
@@ -23,7 +24,9 @@ namespace UGame
 
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
-
+		WindowsWindow* ww = (WindowsWindow*)window.get();
+		ww->Init({});
+		
 		//Renderer::Init();
 		
 		imGuiLayer = ImGuiLayer::Create();
@@ -63,12 +66,12 @@ namespace UGame
 			//	}
 			//}
 
-			//imGuiLayer->Begin();
-			//for (Layer* layer : layerStack)
-			//{
-			//	layer->OnImGuiRender(ImGui::GetCurrentContext());
-			//}
-			//imGuiLayer->End();
+			imGuiLayer->Begin();
+			for (Layer* layer : layerStack)
+			{
+				layer->OnImGuiRender(ImGui::GetCurrentContext());
+			}
+			imGuiLayer->End();
 
 			//window->OnUpdate();
 		}
@@ -99,7 +102,7 @@ namespace UGame
 		}
 
 		minimized = false;
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		//Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 

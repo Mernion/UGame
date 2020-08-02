@@ -17,5 +17,11 @@ namespace UGame
 	private:
 
 		float deltaTime = 0.f;
+		
+		bool CreateDeviceD3D(HWND hwnd);
+		void CleanupDeviceD3D();
+		void CreateRenderTarget();
+		void CleanupRenderTarget();
+		
 	};
 }

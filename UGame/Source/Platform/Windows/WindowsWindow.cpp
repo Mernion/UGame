@@ -119,7 +119,7 @@ namespace UGame
 	
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		Init(props);
+		//Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
