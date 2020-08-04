@@ -53,6 +53,11 @@ set(UGAME_SOURCE_PLATFORM_OPENGL
 	"Source/Platform/OpenGL/LinuxWindow.cpp"
 )
 
+set(UGAME_SOURCE_PLATFORM_DIRECTX
+	"Source/Platform/DirectX/DirectXRendererAPI.h"
+	"Source/Platform/DirectX/DirectXRendererAPI.cpp"
+)
+
 set(UGAME_SOURCE_PLATFORM_WINDOWS
 	"Source/Platform/Windows/WindowsWindow.cpp"
 	"Source/Platform/Windows/WindowsWindow.h"
@@ -131,6 +136,7 @@ set(UGAME_SRC 	${UGAME_SOURCE}
 		${UGAME_SOURCE_IMGUI_DIRECTX}
 		${UGAME_SOURCE_CORE}
 		${UGAME_SOURCE_THIRDPARTY}
+		${UGAME_SOURCE_PLATFORM_DIRECTX}
 )
 
 add_library(UGame SHARED ${UGAME_SRC})
@@ -161,6 +167,7 @@ source_group("Source Files/Core" FILES ${UGAME_SOURCE_CORE})
 source_group("Source Files/ThirdParty" FILES ${UGAME_SOURCE_THIRDPARTY})
 source_group("Source Files/ImGui/OpenGL" FILES ${UGAME_SOURCE_IMGUI_OPENGL})
 source_group("Source Files/ImGui/DirectX" FILES ${UGAME_SOURCE_IMGUI_DIRECTX})
+source_group("Source Files/Platform/DirectX" FILES ${UGAME_SOURCE_PLATFORM_DIRECTX})
 
 if (WIN32)
       target_compile_definitions(UGame PRIVATE UG_BUILD_DLL=1 UG_PLATFORM_WINDOWS=1) 

@@ -2,8 +2,7 @@
 
 
 #include <imgui.h>
-#include "UGame/ImGui/DirectX/imgui_impl_win32.h"
-#include "UGame/ImGui/DirectX/imgui_impl_dx11.h"
+
 #include <windowsx.h>
 
 #include "UGame/Events/ApplicationEvent.h"
