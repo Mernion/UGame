@@ -1,5 +1,9 @@
 #include "WindowsWindow.h"
 
+
+#include <imgui.h>
+#include "UGame/ImGui/DirectX/imgui_impl_win32.h"
+#include "UGame/ImGui/DirectX/imgui_impl_dx11.h"
 #include <windowsx.h>
 
 #include "UGame/Events/ApplicationEvent.h"
@@ -7,6 +11,9 @@
 #include "UGame/Events/MouseEvent.h"
 #include "UGame/Log.h"
 #include "UGame/Core.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 
 namespace UGame
 {
@@ -16,20 +23,23 @@ namespace UGame
 		const auto props = reinterpret_cast<WindowData*>(ptr);
 		return props;
 	}
-	
+
+
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
+		//if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam))
+		//	return true;
+		
 		const WindowData* data;
 		if (uMsg == WM_CREATE)
 		{
 			CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
 			data = reinterpret_cast<WindowData*>(pCreate->lpCreateParams);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+			return 0;
 		}
-		else
-		{
-			data = GetAppState(hwnd);
-		}
+
+		data = GetAppState(hwnd);
 		
 		switch (uMsg)
 		{
@@ -37,19 +47,19 @@ namespace UGame
 			{
 				WindowCloseEvent event;
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_KEYDOWN:
 			{
 				KeyPressedEvent event(wParam, 0);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_KEYUP:
 			{
 				KeyReleasedEvent event(wParam);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_MOUSEMOVE:
 			{
@@ -57,37 +67,37 @@ namespace UGame
 				const int yPos = GET_Y_LPARAM(lParam);
 				MouseMovedEvent event(xPos, yPos);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_LBUTTONDOWN:
 			{
 				MouseButtonPressedEvent event(0);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_LBUTTONUP:
 			{
 				MouseButtonReleasedEvent event(0);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_RBUTTONDOWN:
 			{
 				MouseButtonPressedEvent event(1);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_RBUTTONUP:
 			{	
 				MouseButtonReleasedEvent event(1);
 				data->eventCallback(event);
-				break;
+				return 0;
 			}
 		case WM_MOUSEHWHEEL:
 			{
 				const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 				MouseScrolledEvent event(delta, 0);
-				break;
+				return 0;
 			}
 		case WM_DESTROY:
 			{
@@ -100,7 +110,7 @@ namespace UGame
 			UINT height = HIWORD(lParam);
 			WindowResizeEvent event(width, height);
 			data->eventCallback(event);
-			break;
+			return 0;
 		}
 		case WM_PAINT:
 			{
@@ -133,34 +143,15 @@ namespace UGame
 
 		UG_CORE_INFO("Creating window {0} ({1}, {2])", props.title, props.width, props.height);
 
-		if (hInstance == NULL)
-			hInstance = static_cast<HINSTANCE>(GetModuleHandle(NULL));
-
 		// Register the windows class
-		WNDCLASS wc{};
-		wc.lpfnWndProc = WindowProc;
-		wc.hInstance = hInstance;
-		std::wstring wTitle = std::wstring(props.title.begin(), props.title.end());
-		wc.lpszClassName = wTitle.c_str();
+		const std::wstring wTitle = std::wstring(props.title.begin(), props.title.end());
+		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WindowProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, wTitle.c_str(), NULL };
+		
+		RegisterClassEx(&wc);
+		hwnd = ::CreateWindow(wc.lpszClassName, L"Main", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, &windowData);
 
-		RegisterClass(&wc);
-
-		HWND hwnd = CreateWindowEx(
-			0,											// Optional window styles.
-		wTitle.c_str(),							// Window class
-		L"Main",								// Window text
-			WS_OVERLAPPEDWINDOW,					// Window style
-
-			// Size and position
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-		NULL,									// Parent window    
-			NULL,									// Menu
-			hInstance,									// Instance handle
-			&windowData									// Additional application data
-		);
-
-		ShowWindow(hwnd, 10);
+		ShowWindow(hwnd, SW_SHOWDEFAULT);
+		//UpdateWindow(hwnd);
 
 		SetVSync(true);
 

@@ -13,7 +13,7 @@ namespace UGame
 
 		Window::EventCallbackFn eventCallback;
 	};
-	
+
 	class WindowsWindow : public Window
 	{
 	public:
@@ -34,10 +34,9 @@ namespace UGame
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 		
-		void* GetNativeWindow() const override { return hInstance; }
+		void* GetNativeWindow() const override { return hwnd; }
 
 		virtual void Init(const WindowProps& props);
-
 
 	private:
 
@@ -45,7 +44,7 @@ namespace UGame
 
 		virtual void Shutdown();
 
-		HINSTANCE hInstance;
+		HWND hwnd;
 		GraphicsContext* graphicsContext;
 	};
 }
