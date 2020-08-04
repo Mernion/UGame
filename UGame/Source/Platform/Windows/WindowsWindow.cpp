@@ -27,8 +27,8 @@ namespace UGame
 
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		//if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam))
-		//	return true;
+		if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam))
+			return true;
 		
 		const WindowData* data;
 		if (uMsg == WM_CREATE)
@@ -129,7 +129,7 @@ namespace UGame
 	
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		//Init(props);
+		;
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -151,30 +151,9 @@ namespace UGame
 		hwnd = ::CreateWindow(wc.lpszClassName, L"Main", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, &windowData);
 
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
-		//UpdateWindow(hwnd);
 
 		SetVSync(true);
 
-		//glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-		//		case GLFW_REPEAT:
-		//		{
-		//			KeyPressedEvent event(key, 1);
-		//			data.eventCallback(event);
-		//			break;
-		//		}
-		//		}
-		//	});
-
-		//glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int character)
-		//	{
-		//		WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-		//	
-		//		KeyTypedEvent event(character);
-		//		data.eventCallback(event);
-		//	});
 	}
 
 	void WindowsWindow::Shutdown()
