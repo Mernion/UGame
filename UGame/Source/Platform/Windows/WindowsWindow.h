@@ -1,8 +1,9 @@
 #pragma once
 #include "UGame/Window.h"
-#include "Renderer/GraphicsContext.h"
 
-struct GLFWwindow;
+#include "Platform/DirectX/DirectXContext.h"
+
+class GraphicsContext;
 
 namespace UGame
 {
@@ -35,6 +36,7 @@ namespace UGame
 		bool IsVSync() const override;
 		
 		void* GetNativeWindow() const override { return hwnd; }
+		GraphicsContext* GetGraphicsContext() const override { return graphicsContext; }
 
 		virtual void Init(const WindowProps& props);
 
@@ -45,7 +47,8 @@ namespace UGame
 		virtual void Shutdown();
 
 		HWND hwnd;
-		GraphicsContext* graphicsContext;
+		
+		DirectXContext* graphicsContext;
 	};
 }
 

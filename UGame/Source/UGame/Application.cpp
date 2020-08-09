@@ -25,11 +25,6 @@ namespace UGame
 		window = std::unique_ptr<Window>(Window::Create());
 		window->SetEventCallback(BIND_EVENT(Application::OnEvent));
 
-// todo:: TMP! fixme
-#if UG_PLATFORM_WINDOWS
-		WindowsWindow* ww = (WindowsWindow*)window.get();
-		ww->Init({});
-#endif
 		Renderer::Init();
 		
 		imGuiLayer = ImGuiLayer::Create();

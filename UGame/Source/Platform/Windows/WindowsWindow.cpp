@@ -4,6 +4,8 @@
 #include <imgui.h>
 
 #include <windowsx.h>
+#include "Platform/DirectX/DirectXContext.h"
+#include "Renderer/GraphicsContext.h"
 
 #include "UGame/Events/ApplicationEvent.h"
 #include "UGame/Events/KeyEvent.h"
@@ -39,28 +41,30 @@ namespace UGame
 		}
 
 		data = GetAppState(hwnd);
-		
-		switch (uMsg)
+
+		if (data != NULL && data->eventCallback)
 		{
-		case WM_CLOSE:
+			switch (uMsg)
+			{
+			case WM_CLOSE:
 			{
 				WindowCloseEvent event;
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_KEYDOWN:
+			case WM_KEYDOWN:
 			{
 				KeyPressedEvent event(wParam, 0);
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_KEYUP:
+			case WM_KEYUP:
 			{
 				KeyReleasedEvent event(wParam);
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_MOUSEMOVE:
+			case WM_MOUSEMOVE:
 			{
 				const int xPos = GET_X_LPARAM(lParam);
 				const int yPos = GET_Y_LPARAM(lParam);
@@ -68,50 +72,50 @@ namespace UGame
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_LBUTTONDOWN:
+			case WM_LBUTTONDOWN:
 			{
 				MouseButtonPressedEvent event(0);
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_LBUTTONUP:
+			case WM_LBUTTONUP:
 			{
 				MouseButtonReleasedEvent event(0);
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_RBUTTONDOWN:
+			case WM_RBUTTONDOWN:
 			{
 				MouseButtonPressedEvent event(1);
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_RBUTTONUP:
-			{	
+			case WM_RBUTTONUP:
+			{
 				MouseButtonReleasedEvent event(1);
 				data->eventCallback(event);
 				return 0;
 			}
-		case WM_MOUSEHWHEEL:
+			case WM_MOUSEHWHEEL:
 			{
 				const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 				MouseScrolledEvent event(delta, 0);
 				return 0;
 			}
-		case WM_DESTROY:
+			case WM_DESTROY:
 			{
 				PostQuitMessage(0);
 				return 0;
 			}
-		case WM_SIZE:
-		{
-			UINT width = LOWORD(lParam);
-			UINT height = HIWORD(lParam);
-			WindowResizeEvent event(width, height);
-			data->eventCallback(event);
-			return 0;
-		}
-		case WM_PAINT:
+			case WM_SIZE:
+			{
+				UINT width = LOWORD(lParam);
+				UINT height = HIWORD(lParam);
+				WindowResizeEvent event(width, height);
+				data->eventCallback(event);
+				return 0;
+			}
+			case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(hwnd, &ps);
@@ -119,7 +123,9 @@ namespace UGame
 				EndPaint(hwnd, &ps);
 			}
 			return 0;
+			}
 		}
+
 
 		UG_CORE_INFO("Window event {0}", uMsg);
 		
@@ -128,7 +134,7 @@ namespace UGame
 	
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		;
+		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
@@ -142,17 +148,18 @@ namespace UGame
 
 		UG_CORE_INFO("Creating window {0} ({1}, {2])", props.title, props.width, props.height);
 
-		// Register the windows class
 		const std::wstring wTitle = std::wstring(props.title.begin(), props.title.end());
 		WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WindowProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, wTitle.c_str(), NULL };
 		
 		RegisterClassEx(&wc);
-		hwnd = ::CreateWindow(wc.lpszClassName, L"Main", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, &windowData);
+		hwnd = ::CreateWindow(wc.lpszClassName, L"Main", WS_OVERLAPPEDWINDOW, 100, 100, props.width, props.height, NULL, NULL, wc.hInstance, &windowData);
 
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
 
-		SetVSync(true);
+		graphicsContext = new DirectXContext(hwnd);
+		graphicsContext->Init();
 
+		SetVSync(true);
 	}
 
 	void WindowsWindow::Shutdown()

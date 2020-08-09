@@ -30,6 +30,8 @@ namespace UGame
 
 		Window& GetWindow() { return *window; }
 
+		
+
 		static Application& Get() { return *instance; }
 
 	private:

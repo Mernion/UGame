@@ -4,6 +4,8 @@
 
 namespace UGame
 {
+	class GraphicsContext;
+	
 	struct WindowProps
 	{
 		std::string title;
@@ -35,6 +37,7 @@ namespace UGame
 		virtual bool IsVSync() const = 0;
 		
 		virtual void* GetNativeWindow() const = 0;
+		virtual GraphicsContext* GetGraphicsContext() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

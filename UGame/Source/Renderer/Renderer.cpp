@@ -14,6 +14,7 @@ namespace UGame
 
 	void Renderer::EndScene()
 	{
+		
 	}
 
 	void Renderer::Init()

@@ -4,9 +4,10 @@
 #include <cstring>
 #include <fstream>
 
+#include "DirectXContext.h"
+
 namespace UGame
 {
-
 	DirectXShader::DirectXShader(const std::string& filename)
 	{
 	}
@@ -37,6 +38,23 @@ namespace UGame
 				UG_CORE_ERROR("Failed to compile vs shader : {0}", (char*)error_blob->GetBufferPointer());
 			}
 		}
+
+		DirectXContext* context = static_cast<DirectXContext*>(Application::Get().GetWindow().GetGraphicsContext());
+
+
+		hr = context->GetDevice()->CreateVertexShader(
+			vs_blob->GetBufferPointer(),
+			vs_blob->GetBufferSize(),
+			NULL,
+			&vertexShader);
+		UG_CORE_ASSERT(SUCCEEDED(hr));
+
+		hr = context->GetDevice()->CreatePixelShader(
+			ps_blob->GetBufferPointer(),
+			ps_blob->GetBufferSize(),
+			NULL,
+			&pixelShader);
+		UG_CORE_ASSERT(SUCCEEDED(hr));
 	}
 
 	void DirectXShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)

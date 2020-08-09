@@ -1,6 +1,6 @@
 #pragma once
 #include "Renderer/Shader.h"
-#include <d3dcommon.h>
+#include <d3d11.h>
 
 namespace UGame
 {
@@ -27,6 +27,9 @@ namespace UGame
 		ID3DBlob* vs_blob = nullptr;
 		ID3DBlob* ps_blob = nullptr;
 		ID3DBlob* error_blob = nullptr;
+
+		ID3D11VertexShader* vertexShader = nullptr;
+		ID3D11PixelShader* pixelShader = nullptr;
 
 	};
 }

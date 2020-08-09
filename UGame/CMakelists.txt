@@ -58,6 +58,8 @@ set(UGAME_SOURCE_PLATFORM_DIRECTX
 	"Source/Platform/DirectX/DirectXRendererAPI.cpp"
 	"Source/Platform/DirectX/DirectXShader.h"
 	"Source/Platform/DirectX/DirectXShader.cpp"
+	"Source/Platform/DirectX/DirectXContext.h"
+	"Source/Platform/DirectX/DirectXContext.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_WINDOWS
