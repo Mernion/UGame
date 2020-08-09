@@ -1,6 +1,4 @@
 #include <d3d11.h>
-#include <d3d11shader.h>
-#include <dxgi.h>
 
 #include "UGame.h"
 
@@ -13,7 +11,17 @@ public:
 	ExampleLayer() : Layer("Example")
 	{
 
+		float vertex_data_array[] = {
+   0.0f,  0.5f,  0.0f, // point at top
+   0.5f, -0.5f,  0.0f, // point at bottom-right
+  -0.5f, -0.5f,  0.0f, // point at bottom-left
+		};
+		UINT vertex_stride = 3 * sizeof(float);
+		UINT vertex_offset = 0;
+		UINT vertex_count = 3;
 
+		vertexBuffer.reset(UGame::VertexBuffer::Create(vertex_data_array, sizeof(vertex_data_array)));
+		
 		const std::string shaderSrc = R"(
 			struct vs_in {
 				float3 position_local : POS;
@@ -34,7 +42,6 @@ public:
 			  return float4(1.0, 0.0, 1.0, 1.0); // must return an RGBA colour
 			}
 		)";
-
 
 		shader = UGame::Shader::Create("TestShader", shaderSrc, shaderSrc);
 
@@ -59,7 +66,7 @@ public:
 private:
 
 
-
+	std::shared_ptr<UGame::VertexBuffer> vertexBuffer;
 	std::shared_ptr<UGame::Shader> shader;
 };
 

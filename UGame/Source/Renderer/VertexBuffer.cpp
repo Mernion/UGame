@@ -1,5 +1,6 @@
 #include "VertexBuffer.h"
 #include "Renderer.h"
+#include "Platform/DirectX/DirectXVertexBuffer.h"
 #include "Platform/OpenGL/OpenGLVertexBuffer.h"
 #include "UGame/Core.h"
 
@@ -15,6 +16,9 @@ namespace UGame
 			break;
 		case RendererAPI::API::OpenGL:
 			return new OpenGLVertexBuffer(data, size);
+			break;
+		case RendererAPI::API::DirectX:
+			return new DirectXVertexBuffer(data, size);
 			break;
 		}
 

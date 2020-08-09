@@ -60,6 +60,8 @@ set(UGAME_SOURCE_PLATFORM_DIRECTX
 	"Source/Platform/DirectX/DirectXShader.cpp"
 	"Source/Platform/DirectX/DirectXContext.h"
 	"Source/Platform/DirectX/DirectXContext.cpp"
+	"Source/Platform/DirectX/DirectXVertexBuffer.h"
+	"Source/Platform/DirectX/DirectXVertexBuffer.cpp"
 )
 
 set(UGAME_SOURCE_PLATFORM_WINDOWS
