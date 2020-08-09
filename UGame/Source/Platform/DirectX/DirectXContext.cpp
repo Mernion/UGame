@@ -32,13 +32,7 @@ namespace UGame
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 		const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
 		HRESULT result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &swapChain, &device, &deviceFeatureLevel, &deviceContext);
-		if (FAILED(result))
-		{
-			UG_CORE_ERROR("Failed to create D3D device");
-			UG_CORE_ASSERT(false);
-			return;
-		}
-		
+		UG_CORE_ASSERT(SUCCEEDED(result));
 	}
 
 	void DirectXContext::SwapBuffers()
