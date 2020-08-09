@@ -1,6 +1,7 @@
 #pragma once
 #include "Shader.h"
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/DirectX/DirectXShader.h"
 #include "Renderer.h"
 
 namespace UGame
@@ -12,6 +13,9 @@ namespace UGame
 		case RendererAPI::API::None:
 			UG_CORE_ASSERT(false, "Not Implemented renderer used");
 			return nullptr;
+			break;
+		case RendererAPI::API::DirectX:
+			return std::make_shared<DirectXShader>(filepath);
 			break;
 		case RendererAPI::API::OpenGL:
 			return std::make_shared<OpenGLShader>(filepath);
@@ -29,6 +33,9 @@ namespace UGame
 		case RendererAPI::API::None:
 			UG_CORE_ASSERT(false, "Not Implemented renderer used");
 			return nullptr;
+			break;
+		case RendererAPI::API::DirectX:
+			return std::make_shared<DirectXShader>(name, vertexSrc, fragmentSrc);
 			break;
 		case RendererAPI::API::OpenGL:
 			return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
